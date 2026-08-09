@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEX•ON — وسيط عقاري | جسر السويس</title>
+<meta name="description" content="NEX•ON وسيط عقاري معتمد في جسر السويس — وحدات للبيع والإيجار موثقة بالفيديو والصور، مع كامل التفاصيل والسعر.">
+
+<!-- Open Graph / social preview -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="NEX•ON">
+<meta property="og:title" content="NEX•ON — وسيط عقاري | جسر السويس">
+<meta property="og:description" content="وحدات سكنية للبيع والإيجار في جسر السويس، موثقة بالفيديو والصور مع كامل التفاصيل والسعر.">
+<meta property="og:image" content="https://mahmoud1358604.github.io/nexon/og-image.jpg">
+<meta property="og:url" content="https://mahmoud1358604.github.io/nexon/">
+<meta property="og:locale" content="ar_EG">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="NEX•ON — وسيط عقاري | جسر السويس">
+<meta name="twitter:description" content="وحدات سكنية للبيع والإيجار في جسر السويس، موثقة بالفيديو والصور مع كامل التفاصيل والسعر.">
+<meta name="twitter:image" content="https://mahmoud1358604.github.io/nexon/og-image.jpg">
+
+<!-- Google Analytics 4: replace G-XXXXXXXXXX with your own Measurement ID -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Tajawal:wght@300;400;500;700;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15130f;
+    --ink-2:#1d1a14;
+    --marble:#e9e2d4;
+    --marble-2:#dfd6c4;
+    --brass:#b58c48;
+    --brass-light:#d9b876;
+    --bronze:#6e4e24;
+    --stone:#948c7c;
+    --paper:#f4efe4;
+    --line: rgba(181,140,72,0.35);
+    --radius: 2px;
+    --patina:#6f7d5d;
+    --patina-light:#9fae8b;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Tajawal', sans-serif;
+    font-weight:400;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  img,video{max-width:100%; display:block;}
+  a{color:inherit;}
+  .eyebrow{
+    font-family:'IBM Plex Sans Arabic', sans-serif;
+    font-size:0.78rem;
+    letter-spacing:0.18em;
+    color:var(--brass-light);
+    text-transform:uppercase;
+    display:flex;
+    align-items:center;
+    gap:0.6rem;
+    justify-content:center;
+  }
+  .eyebrow::before,.eyebrow::after{
+    content:"";
+    width:28px;
+    height:1px;
+    background:var(--brass);
+    opacity:0.7;
+  }
+
+  /* ===== STICKY NAV ===== */
+  .topnav{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:50;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0.9rem 1.4rem;
+    background:rgba(21,19,15,0);
+    border-bottom:1px solid transparent;
+    transition:background .35s ease, border-color .35s ease, backdrop-filter .35s ease;
+  }
+  .topnav.solid{
+    background:rgba(21,19,15,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .topnav .brand{
+    font-family:'Aref Ruqaa', serif;
+    font-size:1.25rem;
+    color:var(--paper);
+    opacity:0;
+    transform:translateY(-6px);
+    transition:opacity .35s ease, transform .35s ease;
+    display:flex;
+    align-items:center;
+    gap:0.5rem;
+  }
+  .brand-mark{
+    width:26px; height:26px;
+    border-radius:6px;
+    object-fit:cover;
+  }
+  .topnav.solid .brand{opacity:1; transform:translateY(0);}
+  .brand .dot, .hero h1 .dot, footer h3 .dot{color:var(--brass);}
+  .topnav .navcall{
+    display:flex;
+    align-items:center;
+    gap:0.4rem;
+    background:var(--brass);
+    color:var(--ink);
+    font-family:'IBM Plex Sans Arabic', sans-serif;
+    font-size:0.78rem;
+    font-weight:600;
+    padding:0.5rem 0.9rem;
+    text-decoration:none;
+    opacity:0;
+    transform:translateY(-6px);
+    pointer-events:none;
+    transition:opacity .35s ease, transform .35s ease;
+  }
+  .topnav.solid .navcall{opacity:1; transform:translateY(0); pointer-events:auto;}
+  .topnav .navcall svg{width:13px; height:13px; fill:currentColor;}
+
+  /* ===== FILTER TABS ===== */
+  .filters{
+    display:flex;
+    justify-content:center;
+    gap:0.5rem;
+    margin:0 auto 2.6rem;
+    flex-wrap:wrap;
+  }
+  .filter-btn{
+    font-family:'IBM Plex Sans Arabic', sans-serif;
+    font-size:0.82rem;
+    color:var(--stone);
+    background:transparent;
+    border:1px solid var(--line);
+    padding:0.55rem 1.3rem;
+    cursor:pointer;
+    letter-spacing:0.02em;
+    transition:all .25s ease;
+  }
+  .filter-btn.active{
+    background:var(--brass);
+    border-color:var(--brass);
+    color:var(--ink);
+    font-weight:600;
+  }
+  .filter-btn:not(.active):hover{border-color:var(--brass); color:var(--brass-light);}
+
+  /* ===== RENT/SALE RIBBON ===== */
+  .plaque-status{
+    position:absolute;
+    top:0.9rem;
+    inset-inline-end:0.9rem;
+    font-family:'IBM Plex Sans Arabic', sans-serif;
+    font-size:0.7rem;
+    font-weight:600;
+    letter-spacing:0.05em;
+    padding:0.32rem 0.7rem;
+    color:var(--ink);
+  }
+  .plaque-status.sale{background:var(--brass-light);}
+  .plaque-status.rent{background:var(--patina-light);}
+
+  /* ===== SCROLL REVEAL ===== */
+  .reveal{
+    opacity:0;
+    transform:translateY(22px);
+    transition:opacity .7s ease, transform .7s ease;
+  }
+  .reveal.in-view{opacity:1; transform:translateY(0);}
+  @media(prefers-reduced-motion:reduce){
+    .reveal{opacity:1; transform:none; transition:none;}
+  }
+
+  /* ===== IMAGE-ONLY GALLERY VARIANT ===== */
+  .plaque-media.gallery .gimg{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    object-fit:cover;
+    opacity:0;
+    transition:opacity .5s ease;
+  }
+  .plaque-media.gallery .gimg.active{opacity:1;}
+  .gallery-dots{
+    position:absolute;
+    bottom:0.8rem;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    gap:0.4rem;
+    z-index:2;
+  }
+  .gallery-dots span{
+    width:6px; height:6px;
+    border-radius:50%;
+    background:rgba(244,239,228,0.45);
+    transition:background .25s ease;
+  }
+  .gallery-dots span.active{background:var(--brass-light);}
+  .gallery-hint{
+    position:absolute;
+    bottom:0.85rem;
+    inset-inline-end:0.9rem;
+    background:rgba(21,19,15,0.7);
+    color:var(--paper);
+    font-family:'IBM Plex Sans Arabic', sans-serif;
+    font-size:0.68rem;
+    padding:0.3rem 0.6rem;
+    display:flex;
+    align-items:center;
+    gap:0.3rem;
+    z-index:2;
+  }
+  .gallery-hint svg{width:11px; height:11px; fill:currentColor;}
+
+  /* ===== ABOUT ===== */
+  #about{padding:0 1.4rem 4.5rem;}
+  .about-wrap{
+    max-width:680px;
+    margin:0 auto;
+    text-align:center;
+    background:var(--ink-2);
+    border:1px solid var(--line);
+    padding:2.8rem 2rem;
+  }
+  .about-wrap h2{
+    font-family:'Aref Ruqaa', serif;
+    font-weight:700;
+    font-size:1.9rem;
+    color:var(--paper);
+    margin-top:0.6rem;
+  }
+  .about-wrap p{
+    margin-top:1rem;
+    color:var(--stone);
+    font-size:0.95rem;
+    line-height:1.85;
+  }
+  .about-wrap .tagline{
+    margin-top:1.4rem;
+    color:var(--brass-light);
+    font-family:'IBM Plex Sans Arabic', sans-serif;
+    font-size:0.85rem;
+    letter-spacing:0.02em;
+    border-top:1px solid var(--line);
+    padding-top:1.1rem;
+  }
+
+  /* ===== HERO ===== */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    text-align:center;
+    padding:2rem 1.5rem;
+  }
+  .hero video{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    filter:saturate(0.85) brightness(0.55);
+  }
+  .hero::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      linear-gradient(180deg, rgba(21,19,15,0.55) 0%, rgba(21,19,15,0.35) 35%, rgba(21,19,15,0.85) 100%);
+  }
+  .hero-content{position:relative; z-index:2; max-width:720px;}
+  .hero .eyebrow{margin-bottom:1.4rem;}
+  .hero h1{
+    font-family:'Aref Ruqaa', serif;
+    font-weight:700;
+    font-size:clamp(3.2rem, 11vw, 6.5rem);
+    color:var(--paper);
+    line-height:1.05;
+    text-shadow:0 2px 30px rgba(0,0,0,0.5);
+  }
+  .hero p.sub{
+    margin-top:1.2rem;
+    font-size:clamp(1rem,2.4vw,1.25rem);
+    color:var(--marble-2);
+    font-weight:300;
+    max-width:520px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+  .hero .cnt{
+    margin-top:2.6rem;
+    font-family:'IBM Plex Sans Arabic', sans-serif;
+    display:flex;
+    gap:2.4rem;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+  .hero .cnt div{text-align:center;}
+  .hero .cnt b{
+    display:block;
+    font-size:2rem;
+    color:var(--brass-light);
+    font-weight:600;
+  }
+  .hero .cnt span{
+    font-size:0.75rem;
+    color:var(--stone);
+    letter-spacing:0.06em;
+  }
+  .scroll-cue{
+    position:absolute;
+    bottom:2.2rem;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:2;
+    width:1px;
+    height:52px;
+    background:linear-gradient(180deg, transparent, var(--brass) 40%, transparent);
+    animation:cue 2.2s ease-in-out infinite;
+  }
+  @keyframes cue{
+    0%{opacity:0; transform:translate(-50%,-6px);}
+    50%{opacity:1;}
+    100%{opacity:0; transform:translate(-50%,10px);}
+  }
+
+  /* ===== SECTION HEADERS ===== */
+  section{padding:5rem 1.4rem;}
+  .section-head{text-align:center; max-width:640px; margin:0 auto 3.2rem;}
+  .section-head h2{
+    font-family:'Aref Ruqaa', serif;
+    font-size:clamp(2.1rem, 5vw, 3rem);
+    color:var(--paper);
+    margin-top:1rem;
+    font-weight:700;
+  }
+  .section-head p{
+    margin-top:0.9rem;
+    color:var(--stone);
+    font-size:0.98rem;
+  }
+
+  /* ===== GRID ===== */
+  .grid{
+    max-width:1100px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:1fr;
+    gap:1.8rem;
+  }
+  @media(min-width:760px){
+    .grid{grid-template-columns:1fr 1fr;}
+  }
+
+  /* ===== PLAQUE CARD ===== */
+  .plaque{
+    background:var(--marble);
+    color:var(--ink);
+    border-radius:var(--radius);
+    overflow:hidden;
+    border:1px solid rgba(0,0,0,0.06);
+    box-shadow:0 18px 40px -20px rgba(0,0,0,0.55);
+    transition:transform .35s ease, box-shadow .35s ease;
+  }
+  @media(prefers-reduced-motion:no-preference){
+    .plaque:hover{transform:translateY(-4px); box-shadow:0 26px 50px -18px rgba(0,0,0,0.6);}
+  }
+  .plaque-media{
+    position:relative;
+    aspect-ratio:4/3;
+    background:#000;
+    cursor:pointer;
+    overflow:hidden;
+  }
+  .plaque-media img{width:100%; height:100%; object-fit:cover; opacity:0.92;}
+  .plaque-media video{width:100%; height:100%; object-fit:cover; display:none;}
+  .plaque-media.playing img{display:none;}
+  .plaque-media.playing video{display:block;}
+  .play-btn{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.45));
+  }
+  .plaque-media.playing .play-btn{display:none;}
+  .play-btn span{
+    width:60px; height:60px;
+    border-radius:50%;
+    background:rgba(244,239,228,0.92);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 8px 22px rgba(0,0,0,0.4);
+    transition:transform .25s ease;
+  }
+  .plaque-media:hover .play-btn span{transform:scale(1.08);}
+  .play-btn svg{width:20px; height:20px; fill:var(--ink); margin-right:-3px;}
+
+  .plaque-tag{
+    position:absolute;
+    top:0.9rem;
+    inset-inline-start:0.9rem;
+    background:rgba(21,19,15,0.78);
+    color:var(--brass-light);
+    font-family:'IBM Plex Sans Arabic', sans-serif;
+    font-size:0.72rem;
+    letter-spacing:0.05em;
+    padding:0.35rem 0.7rem;
+    border:1px solid var(--line);
+  }
+
+  .plaque-body{padding:1.5rem 1.5rem 1.7rem;}
+  .plaque-loc{
+    font-family:'Aref Ruqaa', serif;
+    font-weight:700;
+    font-size:1.55rem;
+    color:var(--ink);
+  }
+  .plaque-floor{
+    font-family:'IBM Plex Sans Arabic', sans-serif;
+    font-size:0.85rem;
+    color:var(--bronze);
+    margin-top:0.3rem;
+    letter-spacing:0.03em;
+  }
+  .plaque-divider{
+    height:1px;
+    background:linear-gradient(90deg, var(--brass), transparent);
+    margin:1rem 0;
+  }
+  .plaque-row{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:1rem;
+    flex-wrap:wrap;
+  }
+  .plaque-price{
+    font-family:'IBM Plex Sans Arabic', sans-serif;
+    font-size:1.5rem;
+    font-weight:700;
+    color:var(--ink);
+  }
+  .plaque-price small{
+    font-size:0.7rem;
+    font-weight:400;
+    color:var(--bronze);
+    display:block;
+    margin-top:0.15rem;
+  }
+  .plaque-highlight{
+    font-size:0.86rem;
+    color:#4a4436;
+    margin-top:0.9rem;
+  }
+  .toggle-btn{
+    margin-top:1.3rem;
+    width:100%;
+    background:var(--ink);
+    color:var(--paper);
+    border:none;
+    padding:0.85rem 1rem;
+    font-family:'IBM Plex Sans Arabic', sans-serif;
+    font-size:0.88rem;
+    letter-spacing:0.03em;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:0.5rem;
+    transition:background .25s ease;
+  }
+  .toggle-btn:hover{background:var(--bronze);}
+  .toggle-btn svg{width:13px; height:13px; fill:var(--brass-light); transition:transform .3s ease;}
+  .plaque.open .toggle-btn svg{transform:rotate(180deg);}
+
+  /* ===== DETAIL PANEL ===== */
+  .detail{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .5s ease;
+    background:var(--paper);
+    color:var(--ink);
+  }
+  .plaque.open .detail{max-height:1400px;}
+  .detail-inner{padding:1.6rem 1.5rem 2rem; border-top:1px solid rgba(0,0,0,0.08);}
+  .spec-list{display:grid; gap:0.65rem; margin-top:1rem;}
+  .spec-row{
+    display:flex;
+    justify-content:space-between;
+    gap:1rem;
+    padding-bottom:0.65rem;
+    border-bottom:1px dashed rgba(110,78,36,0.3);
+    font-size:0.9rem;
+  }
+  .spec-row dt{color:var(--bronze); font-family:'IBM Plex Sans Arabic', sans-serif; font-size:0.8rem; white-space:nowrap;}
+  .spec-row dd{color:var(--ink); text-align:left; font-weight:500;}
+  .detail-feats{
+    margin-top:1.1rem;
+    font-size:0.88rem;
+    color:#413c30;
+    line-height:1.9;
+  }
+  .detail-feats b{color:var(--ink);}
+  .detail-price{
+    margin-top:1.4rem;
+    padding:1rem 1.1rem;
+    background:var(--ink);
+    color:var(--paper);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:1rem;
+    flex-wrap:wrap;
+  }
+  .detail-price .num{
+    font-family:'IBM Plex Sans Arabic', sans-serif;
+    font-size:1.5rem;
+    font-weight:700;
+    color:var(--brass-light);
+  }
+  .detail-price .note{font-size:0.75rem; color:var(--stone); margin-top:0.2rem;}
+  .cta-row{
+    margin-top:1.2rem;
+    display:flex;
+    gap:0.7rem;
+    flex-wrap:wrap;
+  }
+  .cta{
+    flex:1;
+    min-width:140px;
+    text-align:center;
+    padding:0.8rem 1rem;
+    font-family:'IBM Plex Sans Arabic', sans-serif;
+    font-size:0.85rem;
+    font-weight:600;
+    letter-spacing:0.02em;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:0.5rem;
+    border:1px solid var(--ink);
+    transition:opacity .2s ease;
+  }
+  .cta:hover{opacity:0.82;}
+  .cta.whats{background:var(--ink); color:var(--paper);}
+  .cta.call{background:transparent; color:var(--ink);}
+  .cta svg{width:15px; height:15px; fill:currentColor;}
+
+  /* ===== FOOTER ===== */
+  footer{
+    border-top:1px solid var(--line);
+    padding:3.4rem 1.5rem 2.4rem;
+    text-align:center;
+  }
+  .footer-mark{
+    width:52px; height:52px;
+    border-radius:10px;
+    object-fit:cover;
+    margin:0 auto 1rem;
+  }
+  .footer-divider{
+    width:60px; height:1px;
+    background:var(--line);
+    margin:2rem auto;
+  }
+  footer .agent-name{
+    font-family:'Aref Ruqaa', serif;
+    font-weight:700;
+    font-size:1.3rem;
+    color:var(--paper);
+    margin-top:0.4rem;
+  }
+  footer .eyebrow{margin-bottom:1.1rem;}
+  footer h3{
+    font-family:'Aref Ruqaa', serif;
+    font-size:1.9rem;
+    color:var(--paper);
+  }
+  footer .role{
+    font-family:'IBM Plex Sans Arabic', sans-serif;
+    font-size:0.78rem;
+    color:var(--brass-light);
+    letter-spacing:0.1em;
+    margin-top:0.3rem;
+  }
+  footer .phone{
+    margin-top:1.4rem;
+    font-family:'IBM Plex Sans Arabic', sans-serif;
+    font-size:1.4rem;
+    letter-spacing:0.05em;
+    color:var(--paper);
+    direction:ltr;
+    display:inline-block;
+  }
+  footer .cta-row{max-width:420px; margin:1.6rem auto 0;}
+  footer .cta.whats{background:var(--brass); border-color:var(--brass); color:var(--ink);}
+  footer .cta.call{border-color:var(--stone); color:var(--paper);}
+  footer .fine{
+    margin-top:2.6rem;
+    font-size:0.72rem;
+    color:var(--stone);
+    letter-spacing:0.04em;
+  }
+
+  .last-updated{
+    margin-top:.8rem;
+    font-size:.72rem;
+    color:var(--stone);
+    opacity:.9;
+    display:flex;
+    align-items:center;
+    gap:.4rem;
+  }
+  .last-updated::before{
+    content:"";
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:var(--brass);
+    display:inline-block;
+  }
+
+</style>
+</head>
+<body>
+
+<nav class="topnav" id="topnav">
+  <span class="brand">NEX<span class="dot">•</span>ON</span>
+  <a class="navcall" href="tel:01105247611">
+    <svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.7 3.7 5 6.4 6.4l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.6c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.4 0 .8-.2 1z"/></svg>
+    اتصال سريع
+  </a>
+</nav>
+
+<section class="hero">
+  <video autoplay muted loop playsinline poster="image-01.jpg">
+    <source src="video-01.mp4" type="video/mp4">
+  </video>
+  <div class="hero-content">
+    <p class="eyebrow">وسيط عقاري معتمد · جسر السويس</p>
+    <h1>NEX<span class="dot">•</span>ON</h1>
+    <p class="sub">حلول وخدمات عقارية في مكان واحد — وحدات للبيع والإيجار موثقة بالفيديو، كل شقة بموقعها ودورها ومواصفاتها كاملة، بلا مفاجآت بعد المعاينة.</p>
+    <div class="cnt" id="unitCounters">
+      <div><b id="countAll">0</b><span>وحدة متاحة</span></div>
+      <div><b id="countSale">0</b><span>للبيع</span></div>
+      <div><b id="countRent">0</b><span>للإيجار</span></div>
+    </div>
+  </div>
+  <div class="scroll-cue"></div>
+</section>
+
+<section id="about">
+  <div class="about-wrap reveal">
+    <p class="eyebrow">من نحن</p>
+    <h2>NEX<span class="dot">•</span>ON للوساطة العقارية</h2>
+    <p>NEX•ON وسيط عقاري معتمد، بيربط العميل بأفضل الوحدات السكنية للبيع والإيجار في جسر السويس، مع توثيق كامل بالفيديو والصور لكل وحدة قبل ما تشوفها بعينك.</p>
+    <p class="tagline">Next Today · On Always — نبتكر اليوم، لنُبقيك في المستقبل.</p>
+  </div>
+</section>
+
+<section id="units">
+
+  <div class="section-head">
+    <p class="eyebrow">الوحدات المتاحة</p>
+    <h2>كل شقة بتفاصيلها كاملة</h2>
+    <p>اضغط على الفيديو للمعاينة، وعلى "عرض التفاصيل" للمواصفات والسعر ووسائل التواصل.</p>
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn active" data-filter="all">الكل</button>
+    <button class="filter-btn" data-filter="sale">للبيع</button>
+    <button class="filter-btn" data-filter="rent">للإيجار</button>
+  </div>
+
+  <div class="grid" id="grid">
+    <p style="grid-column:1/-1; text-align:center; color:var(--stone); font-family:'IBM Plex Sans Arabic', sans-serif; font-size:0.9rem;">جارِ تحميل الوحدات...</p>
+  </div>
+</section>
+
+<footer>
+  <h3>NEX<span class="dot">•</span>ON</h3>
+  <p class="role">وسيط عقاري معتمد — جسر السويس</p>
+  <div class="footer-divider"></div>
+  <p class="eyebrow">للمعاينة والتواصل المباشر</p>
+  <p class="agent-name">Eng. Mahmoud Al Bahnasawy</p>
+  <p class="role">م / محمود البهنساوي</p>
+  <a class="phone" href="tel:01105247611">01105247611</a>
+  <div class="cta-row">
+    <a class="cta whats" href="https://wa.me/201105247611?text=استفسار%20عن%20عقارات%20جسر%20السويس" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.1-.4-2.1-1.3-.8-.7-1.3-1.6-1.5-1.8-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.3-.4.1-.2 0-.4 0-.5C11 9.4 10.5 8 10.3 7.6c-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9 1-.9 2.3s1 2.6 1.1 2.8c.1.2 2 3 4.8 4.2.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.1-.3-.2-.6-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.2L2 22l4.9-1.4C8.4 21.5 10.2 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.1.9.9-3-.2-.3C4.2 14.9 3.8 13.5 3.8 12c0-4.5 3.7-8.2 8.2-8.2s8.2 3.7 8.2 8.2-3.7 8.2-8.2 8.2z"/></svg>
+      راسلني على واتساب
+    </a>
+    <a class="cta call" href="tel:01105247611">
+      <svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.7 3.7 5 6.4 6.4l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.6c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.4 0 .8-.2 1z"/></svg>
+      اتصال مباشر
+    </a>
+  </div>
+  <p class="fine">NEX•ON — Next Today, On Always · جسر السويس، السويس</p>
+</footer>
+
+<script>
+  const WHATS_NUM = "201105247611";
+  const CALL_NUM = "01105247611";
+
+  function esc(s){
+    if (s === undefined || s === null) return "";
+    return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  }
+
+  const PLAY_SVG = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+  const CHEVRON_SVG = '<svg viewBox="0 0 24 24"><path d="M12 15.5 4.5 8l1.4-1.4L12 12.7l6.1-6.1L19.5 8z"/></svg>';
+  const WHATS_SVG = '<svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.1-.4-2.1-1.3-.8-.7-1.3-1.6-1.5-1.8-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.3-.4.1-.2 0-.4 0-.5C11 9.4 10.5 8 10.3 7.6c-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9 1-.9 2.3s1 2.6 1.1 2.8c.1.2 2 3 4.8 4.2.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.1-.3-.2-.6-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.2L2 22l4.9-1.4C8.4 21.5 10.2 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.1.9.9-3-.2-.3C4.2 14.9 3.8 13.5 3.8 12c0-4.5 3.7-8.2 8.2-8.2s8.2 3.7 8.2 8.2-3.7 8.2-8.2 8.2z"/></svg>';
+  const CALL_SVG = '<svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.7 3.7 5 6.4 6.4l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.6c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.4 0 .8-.2 1z"/></svg>';
+
+  function trackEvent(name, params){
+    if (typeof gtag === "function") gtag('event', name, params || {});
+  }
+
+  function renderCard(p){
+    const statusLabel = p.status === 'rent' ? 'للإيجار' : 'للبيع';
+    const waHref = `https://wa.me/${WHATS_NUM}?text=${encodeURIComponent(p.wa_text || ('استفسار عن ' + p.loc))}`;
+
+    let mediaHtml;
+    if (p.media_type === 'gallery' && Array.isArray(p.images)) {
+      const imgs = p.images.map((src,i) => `<img class="gimg${i===0?' active':''}" data-idx="${i}" src="${esc(src)}" alt="${esc(p.loc)}" loading="lazy" decoding="async">`).join('');
+      const dots = p.images.map((_,i) => `<span${i===0?' class="active"':''}></span>`).join('');
+      mediaHtml = `
+        <div class="plaque-media gallery" data-gallery="${esc(p.id)}">
+          <span class="plaque-tag">${esc(p.tag)}</span>
+          <span class="plaque-status ${p.status}">${statusLabel}</span>
+          ${imgs}
+          <div class="gallery-hint">${p.images.length} صور</div>
+          <div class="gallery-dots">${dots}</div>
+        </div>`;
+    } else {
+      mediaHtml = `
+        <div class="plaque-media" data-video="${esc(p.id)}">
+          <span class="plaque-tag">${esc(p.tag)}</span>
+          <span class="plaque-status ${p.status}">${statusLabel}</span>
+          <img src="${esc(p.image)}" alt="${esc(p.loc)}" loading="lazy" decoding="async">
+          <video muted playsinline preload="none" src="${esc(p.video)}"></video>
+          <div class="play-btn"><span>${PLAY_SVG}</span></div>
+        </div>`;
+    }
+
+    const specRows = (p.specs || []).map(([dt,dd]) => `<div class="spec-row"><dt>${esc(dt)}</dt><dd>${esc(dd)}</dd></div>`).join('');
+    const highlightHtml = p.highlight ? `<p class="plaque-highlight">${esc(p.highlight)}</p>` : '';
+    const featsHtml = p.feats ? `<div class="detail-feats">${p.feats}</div>` : '';
+
+    let updatedHtml = '';
+    if (p.updated) {
+      const d = new Date(p.updated + 'T00:00:00');
+      if (!Number.isNaN(d.getTime())) {
+        const label = new Intl.DateTimeFormat('ar-EG', {day:'numeric', month:'long', year:'numeric'}).format(d);
+        updatedHtml = `<div class="last-updated" data-updated="${esc(p.updated)}">آخر تحديث: ${label}</div>`;
+      }
+    }
+
+    return `
+    <article class="plaque reveal" id="${esc(p.id)}" data-status="${esc(p.status)}">
+      ${mediaHtml}
+      <div class="plaque-body">
+        <div class="plaque-loc">${esc(p.loc)}</div>
+        <div class="plaque-floor">${esc(p.floor)}</div>
+        <div class="plaque-divider"></div>
+        <div class="plaque-row">
+          <div class="plaque-price">${esc(p.price_num)}<small>${esc(p.price_note)}</small></div>
+        </div>
+        ${highlightHtml}
+        <button class="toggle-btn" onclick="toggleCard('${esc(p.id)}')">
+          <span>عرض التفاصيل</span>
+          ${CHEVRON_SVG}
+        </button>
+      </div>
+      ${updatedHtml}
+      <div class="detail">
+        <div class="detail-inner">
+          <dl class="spec-list">${specRows}</dl>
+          ${featsHtml}
+          <div class="detail-price">
+            <div><div class="num">${esc(p.price_num)}</div><div class="note">${esc(p.price_note)}</div></div>
+          </div>
+          <div class="cta-row">
+            <a class="cta whats" href="${waHref}" target="_blank" rel="noopener" data-track-id="${esc(p.id)}" data-track-channel="whatsapp">
+              ${WHATS_SVG} واتساب
+            </a>
+            <a class="cta call" href="tel:${CALL_NUM}" data-track-id="${esc(p.id)}" data-track-channel="call">
+              ${CALL_SVG} اتصال
+            </a>
+          </div>
+        </div>
+      </div>
+    </article>`;
+  }
+
+  function updateUnitCounters(){
+    const cards = [...document.querySelectorAll('.plaque')];
+    const sale = cards.filter(c => c.dataset.status === 'sale').length;
+    const rent = cards.filter(c => c.dataset.status === 'rent').length;
+    document.getElementById('countAll').textContent = cards.length;
+    document.getElementById('countSale').textContent = sale;
+    document.getElementById('countRent').textContent = rent;
+  }
+
+  function toggleCard(id){
+    const card = document.getElementById(id);
+    const wasOpen = card.classList.contains('open');
+    document.querySelectorAll('.plaque.open').forEach(c => { if(c!==card) c.classList.remove('open'); });
+    card.classList.toggle('open', !wasOpen);
+    if(!wasOpen){
+      setTimeout(()=> card.scrollIntoView({behavior:'smooth', block:'nearest'}), 120);
+      const title = card.querySelector('.plaque-loc')?.textContent || id;
+      trackEvent('view_property', { property_id: id, property_title: title });
+    }
+  }
+
+  function wireMediaInteractions(){
+    document.querySelectorAll('.plaque-media:not(.gallery)').forEach(media => {
+      media.addEventListener('click', () => {
+        const vid = media.querySelector('video');
+        if(!media.classList.contains('playing')){
+          media.classList.add('playing');
+          vid.controls = true;
+          vid.muted = false;
+          vid.play().catch(()=>{ vid.muted = true; vid.play(); });
+        }
+      });
+    });
+
+    document.querySelectorAll('.plaque-media video').forEach(v => {
+      v.addEventListener('play', () => {
+        document.querySelectorAll('.plaque-media video').forEach(o => { if(o!==v) o.pause(); });
+      });
+    });
+
+    document.querySelectorAll('.plaque-media.gallery').forEach(media => {
+      const imgs = [...media.querySelectorAll('.gimg')];
+      const dots = [...media.querySelectorAll('.gallery-dots span')];
+      let idx = 0;
+      media.addEventListener('click', () => {
+        idx = (idx + 1) % imgs.length;
+        imgs.forEach((im,i)=> im.classList.toggle('active', i===idx));
+        dots.forEach((d,i)=> d.classList.toggle('active', i===idx));
+      });
+    });
+
+    document.querySelectorAll('[data-track-id]').forEach(a => {
+      a.addEventListener('click', () => {
+        trackEvent('contact_click', { property_id: a.dataset.trackId, channel: a.dataset.trackChannel });
+      });
+    });
+  }
+
+  function wireFilters(){
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const f = btn.dataset.filter;
+        document.querySelectorAll('.plaque').forEach(card => {
+          const show = f === 'all' || card.dataset.status === f;
+          card.style.display = show ? '' : 'none';
+        });
+        trackEvent('filter_used', { filter: f });
+      });
+    });
+  }
+
+  function wireScrollReveal(){
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); } });
+      }, { threshold: 0.15 });
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    } else {
+      document.querySelectorAll('.reveal').forEach(el => el.classList.add('in-view'));
+    }
+  }
+
+  const topnav = document.getElementById('topnav');
+  window.addEventListener('scroll', () => {
+    topnav.classList.toggle('solid', window.scrollY > window.innerHeight * 0.7);
+  }, { passive: true });
+
+  fetch('properties.json?t=' + Date.now())
+    .then(r => r.json())
+    .then(list => {
+      const grid = document.getElementById('grid');
+      grid.innerHTML = list.map(renderCard).join('');
+      updateUnitCounters();
+      wireMediaInteractions();
+      wireFilters();
+      wireScrollReveal();
+    })
+    .catch(err => {
+      document.getElementById('grid').innerHTML = '<p style="grid-column:1/-1; text-align:center; color:var(--stone);">تعذر تحميل بيانات الوحدات. حاول تحديث الصفحة.</p>';
+      console.error(err);
+    });
+</script>
+
+</body>
+</html>
