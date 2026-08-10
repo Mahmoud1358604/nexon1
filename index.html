@@ -20,12 +20,12 @@
 <meta name="twitter:image" content="https://mahmoud1358604.github.io/nexon1/og-image.jpg">
 
 <!-- Google Analytics 4: replace G-XXXXXXXXXX with your own Measurement ID -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-J07Z4VMC7P"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-J07Z4VMC7P');
+  gtag('config', 'G-XXXXXXXXXX');
 </script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -174,6 +174,15 @@
   }
   .plaque-status.sale{background:var(--brass-light);}
   .plaque-status.rent{background:var(--patina-light);}
+  .plaque-status.sold{background:#8a6b6b; color:var(--paper);}
+  .plaque.is-sold{opacity:0.62;}
+  .plaque.is-sold .plaque-media::after{
+    content:"";
+    position:absolute; inset:0;
+    background:rgba(10,9,7,0.35);
+    z-index:1;
+    pointer-events:none;
+  }
 
   /* ===== SCROLL REVEAL ===== */
   .reveal{
@@ -851,7 +860,9 @@
   }
 
   function renderCard(p){
-    const statusLabel = p.status === 'rent' ? 'للإيجار' : 'للبيع';
+    const soldLabel = p.status === 'rent' ? 'تم الإيجار' : 'تم البيع';
+    const statusLabel = p.sold ? soldLabel : (p.status === 'rent' ? 'للإيجار' : 'للبيع');
+    const statusClass = p.sold ? 'sold' : p.status;
     const waHref = `https://wa.me/${WHATS_NUM}?text=${encodeURIComponent(p.wa_text || ('استفسار عن ' + p.loc))}`;
 
     let mediaHtml;
@@ -861,7 +872,7 @@
       mediaHtml = `
         <div class="plaque-media gallery" data-gallery="${esc(p.id)}">
           <span class="plaque-tag">${esc(p.tag)}</span>
-          <span class="plaque-status ${p.status}">${statusLabel}</span>
+          <span class="plaque-status ${statusClass}">${statusLabel}</span>
           ${imgs}
           <div class="gallery-hint">${p.images.length} صور</div>
           <div class="gallery-dots">${dots}</div>
@@ -870,7 +881,7 @@
       mediaHtml = `
         <div class="plaque-media" data-video="${esc(p.id)}">
           <span class="plaque-tag">${esc(p.tag)}</span>
-          <span class="plaque-status ${p.status}">${statusLabel}</span>
+          <span class="plaque-status ${statusClass}">${statusLabel}</span>
           <img src="${esc(p.image)}" alt="${esc(p.loc)}" loading="lazy" decoding="async">
           <video muted playsinline preload="none" src="${esc(p.video)}"></video>
           <div class="play-btn"><span>${PLAY_SVG}</span></div>
@@ -891,7 +902,7 @@
     }
 
     return `
-    <article class="plaque reveal" id="${esc(p.id)}" data-status="${esc(p.status)}">
+    <article class="plaque reveal${p.sold ? ' is-sold' : ''}" id="${esc(p.id)}" data-status="${esc(p.status)}">
       ${mediaHtml}
       <div class="plaque-body">
         <div class="plaque-loc">${esc(p.loc)}</div>

@@ -571,11 +571,28 @@
         const row = document.createElement("div");
         row.className = "listing";
         const imgSrc = p.media_type === "gallery" ? (p.images||[])[0] : p.image;
+        const soldLabel = p.status === "rent" ? "تم الإيجار" : "تم البيع";
+        const soldBtnLabel = p.sold ? "إلغاء " + soldLabel : soldLabel;
         row.innerHTML = `
           <img src="https://raw.githubusercontent.com/${ownerEl.value.trim()}/${repoEl.value.trim()}/main/${imgSrc}" onerror="this.style.display='none'">
-          <div class="info"><b>${p.loc}</b><span>${p.tag} · ${p.price_num}</span></div>
-          <button data-id="${p.id}">حذف</button>`;
-        row.querySelector("button").addEventListener("click", async () => {
+          <div class="info"><b>${p.loc}${p.sold ? " · <span style=\"color:var(--brass-light)\">"+soldLabel+"</span>" : ""}</b><span>${p.tag} · ${p.price_num}</span></div>
+          <button data-act="sold" style="border-color:var(--brass); color:var(--brass-light);">${soldBtnLabel}</button>
+          <button data-act="del">حذف</button>`;
+
+        row.querySelector('[data-act="sold"]').addEventListener("click", async () => {
+          try {
+            const fresh = await ghGetFile("properties.json");
+            const freshList = JSON.parse(fresh.content);
+            const target = freshList.find(x => x.id === p.id);
+            if (!target) { alert("العقار مش موجود، حمّل القائمة تاني"); return; }
+            target.sold = !target.sold;
+            await ghPutFile("properties.json", JSON.stringify(freshList, null, 2), fresh.sha, `${target.sold ? "تحديد" : "إلغاء"} ${soldLabel} ${p.id}`);
+            p.sold = target.sold;
+            $("#loadListBtn").click();
+          } catch(err){ alert("تعذر التحديث: " + err.message); }
+        });
+
+        row.querySelector('[data-act="del"]').addEventListener("click", async () => {
           if (!confirm(`متأكد إنك عايز تحذف ${p.loc}؟`)) return;
           try {
             const fresh = await ghGetFile("properties.json");
@@ -584,6 +601,7 @@
             row.remove();
           } catch(err){ alert("تعذر الحذف: " + err.message); }
         });
+
         listEl.appendChild(row);
       });
       if (!list.length) listEl.textContent = "مفيش وحدات حاليًا.";
