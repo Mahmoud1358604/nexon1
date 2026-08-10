@@ -419,5 +419,22 @@
     "media_type": "video",
     "image": "image-p13.jpg",
     "video": "video-p13.mp4"
+  },
+  {
+    "id": "p14",
+    "status": "sale",
+    "tag": "شارع سند عبدالحكيم من شارع الخمسين",
+    "loc": "شارع سند عبد الحكيم",
+    "floor": "الدور الرابع",
+    "price_num": "1,500,030",
+    "price_note": "",
+    "highlight": "موضح بلفديو",
+    "updated": "2026-08-10",
+    "specs": [],
+    "feats": "ارضيه بورسلين + اسانسير وغاز برج كامل الخدمات",
+    "wa_text": "استفسار عن شارع سند عبد الحكيم",
+    "media_type": "video",
+    "image": "image-p14.jpg",
+    "video": "video-p14.mp4"
   }
 ]
