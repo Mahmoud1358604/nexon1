@@ -419,5 +419,22 @@
     "media_type": "video",
     "image": "image-p13.jpg",
     "video": "video-p13.mp4"
+  },
+  {
+    "id": "p14",
+    "status": "sale",
+    "tag": "جاري التحديث",
+    "loc": "جاري التحديث",
+    "floor": "جاري التحديث",
+    "price_num": "جاري التحديث",
+    "price_note": "",
+    "highlight": "",
+    "updated": "2026-08-10",
+    "specs": [],
+    "feats": "",
+    "wa_text": "استفسار عن جاري التحديث",
+    "media_type": "video",
+    "image": "image-p14.jpg",
+    "video": "video-p14.mp4"
   }
 ]
