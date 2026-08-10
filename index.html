@@ -20,12 +20,12 @@
 <meta name="twitter:image" content="https://mahmoud1358604.github.io/nexon1/og-image.jpg">
 
 <!-- Google Analytics 4: replace G-XXXXXXXXXX with your own Measurement ID -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-J07Z4VMC7P"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-J07Z4VMC7P');
+  gtag('config', 'G-XXXXXXXXXX');
 </script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -258,6 +258,84 @@
     letter-spacing:0.02em;
     border-top:1px solid var(--line);
     padding-top:1.1rem;
+  }
+
+  /* ===== POLICY LINK + MODAL ===== */
+  .policy-link{
+    display:inline-block;
+    margin-top:1.6rem;
+    font-family:'IBM Plex Sans Arabic', sans-serif;
+    font-size:0.74rem;
+    color:var(--stone);
+    text-decoration:underline;
+    text-underline-offset:3px;
+    cursor:pointer;
+    background:none;
+    border:none;
+    padding:0;
+  }
+  .policy-link:hover{color:var(--brass-light);}
+  .modal-backdrop{
+    position:fixed; inset:0;
+    background:rgba(10,9,7,0.75);
+    z-index:100;
+    display:none;
+    align-items:flex-end;
+    justify-content:center;
+    padding:0;
+  }
+  .modal-backdrop.show{display:flex;}
+  @media(min-width:640px){
+    .modal-backdrop{align-items:center; padding:1.4rem;}
+  }
+  .modal-card{
+    background:var(--marble);
+    color:var(--ink);
+    width:100%;
+    max-width:560px;
+    max-height:88vh;
+    overflow-y:auto;
+    padding:2rem 1.6rem 1.8rem;
+    position:relative;
+    border-top:2px solid var(--brass);
+  }
+  @media(min-width:640px){
+    .modal-card{border-top:none; border:1px solid var(--brass);}
+  }
+  .modal-close{
+    position:absolute;
+    top:1rem; left:1rem;
+    width:30px; height:30px;
+    border:1px solid var(--bronze);
+    background:transparent;
+    color:var(--bronze);
+    cursor:pointer;
+    font-size:1.1rem;
+    line-height:1;
+  }
+  .modal-card h3{
+    font-family:'Aref Ruqaa', serif;
+    font-weight:700;
+    font-size:1.5rem;
+    margin-bottom:1.2rem;
+  }
+  .policy-item{
+    margin-bottom:1.1rem;
+    padding-bottom:1.1rem;
+    border-bottom:1px dashed rgba(110,78,36,0.3);
+  }
+  .policy-item:last-child{border-bottom:none; margin-bottom:0; padding-bottom:0;}
+  .policy-item b{
+    display:block;
+    font-family:'IBM Plex Sans Arabic', sans-serif;
+    font-size:0.85rem;
+    color:var(--bronze);
+    margin-bottom:0.3rem;
+  }
+  .policy-item p{
+    font-size:0.88rem;
+    color:#3a3628;
+    line-height:1.85;
   }
 
   /* ===== HERO ===== */
@@ -714,7 +792,45 @@
     </a>
   </div>
   <p class="fine">NEX•ON — Next Today, On Always · جسر السويس، السويس</p>
+  <button class="policy-link" onclick="openPolicy()">الشروط وسياسة التعامل</button>
 </footer>
+
+<div class="modal-backdrop" id="policyModal" onclick="if(event.target===this) closePolicy()">
+  <div class="modal-card">
+    <button class="modal-close" onclick="closePolicy()">×</button>
+    <h3>الشروط وسياسة التعامل</h3>
+
+    <div class="policy-item">
+      <b>نسبة العمولة</b>
+      <p>عمولة الوساطة تتراوح بين 1.5% إلى 2.5% من قيمة الصفقة، حسب نوع الوحدة وطبيعة التعامل، ويتم الاتفاق عليها بوضوح قبل إتمام أي صفقة.</p>
+    </div>
+
+    <div class="policy-item">
+      <b>الالتزام بمواعيد المعاينة</b>
+      <p>يرجى الالتزام بموعد المعاينة المتفق عليه. في حالة تعذر الحضور أو رغبتك في التأجيل، برجاء إبلاغنا مسبقًا حتى نقدر ننظم المواعيد لباقي العملاء.</p>
+    </div>
+
+    <div class="policy-item">
+      <b>أمان الوحدات والأوراق</b>
+      <p>جميع الوحدات المعروضة موثقة وآمنة بالكامل من الناحية القانونية. تقدر تحضر محاميك الخاص في أي وقت للاطلاع على كامل الأوراق والمستندات قبل اتخاذ أي قرار.</p>
+    </div>
+
+    <div class="policy-item">
+      <b>التواصل عبر واتساب</b>
+      <p>عشان نقدر نخدمك بأسرع وقت، يفضل إرسال كل أسئلتك واستفساراتك في رسالة واحدة من البداية بدل ما تتفرق، وهيتم الرد عليك في أقرب فرصة.</p>
+    </div>
+
+    <div class="policy-item">
+      <b>لا رسوم خفية</b>
+      <p>لا يوجد أي رسوم أو مصاريف إضافية غير نسبة العمولة المتفق عليها. أي التزام مالي تاني بيتم توضيحه بشفافية كاملة قبل أي خطوة.</p>
+    </div>
+
+    <div class="policy-item">
+      <b>المعاينة والحجز</b>
+      <p>المعاينة مجانية وبدون أي التزام. الأسعار المعروضة قابلة للتحديث حسب السوق حتى تأكيد الحجز بعربون، وبنفضل حضور صاحب القرار في المعاينة لتوفير وقت الطرفين.</p>
+    </div>
+  </div>
+</div>
 
 <script>
   const WHATS_NUM = "201105247611";
@@ -895,6 +1011,17 @@
       document.querySelectorAll('.reveal').forEach(el => el.classList.add('in-view'));
     }
   }
+
+  function openPolicy(){
+    document.getElementById('policyModal').classList.add('show');
+    trackEvent('view_policy', {});
+  }
+  function closePolicy(){
+    document.getElementById('policyModal').classList.remove('show');
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closePolicy();
+  });
 
   const topnav = document.getElementById('topnav');
   window.addEventListener('scroll', () => {
