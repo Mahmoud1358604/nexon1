@@ -419,23 +419,5 @@
     "media_type": "video",
     "image": "image-p13.jpg",
     "video": "video-p13.mp4"
-  },
-  {
-    "id": "p14",
-    "status": "sale",
-    "tag": "جانبي ال15",
-    "loc": "شقه مميزه",
-    "floor": "الدور 2 (130م)",
-    "price_num": "750الف",
-    "price_note": "نهائي",
-    "highlight": "٣غرف وريسيبشن ومطبخ و٢حمام منافذ على الشارع برج كامل خدماته كهرباء ومياه وغاز واسانسير شغال ومصالحه",
-    "updated": "2026-08-10",
-    "specs": [],
-    "feats": "",
-    "wa_text": "سؤال عن الشقه المميزه",
-    "media_type": "video",
-    "image": "image-p14.jpg",
-    "video": "video-p14.mp4",
-    "sold": true
   }
 ]
