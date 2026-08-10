@@ -434,6 +434,7 @@
     "wa_text": "سؤال عن الشقه المميزه",
     "media_type": "video",
     "image": "image-p14.jpg",
-    "video": "video-p14.mp4"
+    "video": "video-p14.mp4",
+    "sold": true
   }
 ]
