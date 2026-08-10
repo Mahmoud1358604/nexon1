@@ -189,7 +189,8 @@
     "wa_text": "استفسار عن شقة 110 متر شارع 15 خلف الكنيسة",
     "media_type": "video",
     "image": "image-06.jpg",
-    "video": "video-06.mp4"
+    "video": "video-06.mp4",
+    "sold": true
   },
   {
     "id": "p7",
