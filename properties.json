@@ -483,5 +483,31 @@
     "media_type": "video",
     "image": "image-p23.jpg",
     "video": "video-p23.mp4"
+  },
+  {
+    "id": "p24",
+    "status": "sale",
+    "tag": "شارع متولي الشعراوي",
+    "loc": "فرصه مميزه للبيع بسعر لقطه",
+    "floor": "التاسع",
+    "price_num": "1,000,000",
+    "price_note": "نهائي",
+    "highlight": "",
+    "updated": "2026-08-11",
+    "specs": [
+      [
+        "الدور",
+        "3"
+      ],
+      [
+        "التقسيم",
+        "3غرف 2 حمام  ريسبشن مطبخ"
+      ]
+    ],
+    "feats": "",
+    "wa_text": "استفسار عن فرصه مميزه للبيع بسعر لقطه",
+    "media_type": "video",
+    "image": "image-p24.jpg",
+    "video": "video-p24.mp4"
   }
 ]
