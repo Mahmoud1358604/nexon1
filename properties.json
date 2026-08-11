@@ -436,5 +436,22 @@
     "media_type": "video",
     "image": "image-p14.jpg",
     "video": "video-p14.mp4"
+  },
+  {
+    "id": "p15",
+    "status": "sale",
+    "tag": "شارع القدس",
+    "loc": "شقه علي شارع القدس مميزه",
+    "floor": "دور سابع",
+    "price_num": "1,500,070",
+    "price_note": "شامل النسبه",
+    "highlight": "ان كانت جوده الفديو سيأه تواصل معنا لنرسل لك جوده افضل",
+    "updated": "2026-08-11",
+    "specs": [],
+    "feats": "منفذين علي الشارع تصالح نموزج 3",
+    "wa_text": "استفسار عن شقه علي شارع القدس مميزه",
+    "media_type": "video",
+    "image": "image-p15.jpg",
+    "video": "video-p15.mp4"
   }
 ]
