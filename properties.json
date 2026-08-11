@@ -453,5 +453,22 @@
     "media_type": "video",
     "image": "image-p15.jpg",
     "video": "video-p15.mp4"
+  },
+  {
+    "id": "p16",
+    "status": "sale",
+    "tag": "حمام ميخائيل",
+    "loc": "شقه مميزه علي شارع حمام ميخائيل",
+    "floor": "دور عاشر ناصيه",
+    "price_num": "1,000,170",
+    "price_note": "شامل النسبه",
+    "highlight": "تقسيم وليم عبدالشهيد  برج كامل الخدمات",
+    "updated": "2026-08-11",
+    "specs": [],
+    "feats": "ان كانت جوده الفديو سيأه تواصل معنا لنرسل لك جوده افضل",
+    "wa_text": "استفسار عن شقه مميزه علي شارع حمام ميخائيل",
+    "media_type": "video",
+    "image": "image-p16.jpg",
+    "video": "video-p16.mp4"
   }
 ]
