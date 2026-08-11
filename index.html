@@ -284,6 +284,16 @@
     padding:0;
   }
   .policy-link:hover{color:var(--brass-light);}
+  .footer-links{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:0.5rem;
+    margin-top:1.6rem;
+    flex-wrap:wrap;
+  }
+  .footer-links .policy-link{margin-top:0;}
+  .footer-links-dot{color:var(--stone); font-size:0.74rem; opacity:0.6;}
   .modal-backdrop{
     position:fixed; inset:0;
     background:rgba(10,9,7,0.75);
@@ -346,6 +356,44 @@
     color:#3a3628;
     line-height:1.85;
   }
+
+  /* ===== PARTNERS LIST (inside modal) ===== */
+  .partners-list{margin-top:0.4rem;}
+  .partner-card{
+    display:flex;
+    align-items:center;
+    gap:0.9rem;
+    padding:0.9rem 0;
+    border-bottom:1px dashed rgba(110,78,36,0.3);
+  }
+  .partner-card:last-child{border-bottom:none;}
+  .partner-logo{
+    width:52px; height:52px;
+    flex-shrink:0;
+    object-fit:contain;
+    background:#fff;
+    border:1px solid rgba(0,0,0,0.08);
+    padding:0.3rem;
+  }
+  .partner-info{min-width:0;}
+  .partner-info b{
+    display:block;
+    font-family:'IBM Plex Sans Arabic', sans-serif;
+    font-size:0.88rem;
+    color:var(--ink);
+  }
+  .partner-info .partner-loc{
+    font-size:0.78rem;
+    color:var(--bronze);
+    margin-top:0.15rem;
+  }
+  .partner-info .partner-info-text{
+    font-size:0.82rem;
+    color:#4a4436;
+    margin-top:0.3rem;
+    line-height:1.7;
+  }
+  .partners-empty{color:var(--stone); font-size:0.82rem; font-family:'IBM Plex Sans Arabic', sans-serif;}
 
   /* ===== HERO ===== */
   .hero{
@@ -577,6 +625,22 @@
   .toggle-btn svg{width:13px; height:13px; fill:var(--brass-light); transition:transform .3s ease;}
   .plaque.open .toggle-btn svg{transform:rotate(180deg);}
 
+  .plaque-actions{margin-top:1.3rem; display:flex; gap:0.5rem;}
+  .plaque-actions .toggle-btn{margin-top:0;}
+  .copy-link-btn{
+    flex-shrink:0;
+    width:44px;
+    background:transparent;
+    border:1px solid rgba(0,0,0,0.14);
+    color:var(--stone);
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition:color .2s ease, border-color .2s ease;
+  }
+  .copy-link-btn:hover{color:var(--bronze); border-color:var(--bronze);}
+  .copy-link-btn svg{width:14px; height:14px; fill:currentColor;}
+  .copy-link-btn.copied{color:var(--patina); border-color:var(--patina);}
+
   /* ===== DETAIL PANEL ===== */
   .detail{
     max-height:0;
@@ -801,7 +865,11 @@
     </a>
   </div>
   <p class="fine">NEX•ON — Next Today, On Always · جسر السويس، السويس</p>
-  <button class="policy-link" onclick="openPolicy()">الشروط وسياسة التعامل</button>
+  <div class="footer-links">
+    <button class="policy-link" onclick="openPolicy()">الشروط وسياسة التعامل</button>
+    <span class="footer-links-dot">·</span>
+    <button class="policy-link" onclick="openPartners()">المكاتب الشريكة</button>
+  </div>
 </footer>
 
 <div class="modal-backdrop" id="policyModal" onclick="if(event.target===this) closePolicy()">
@@ -841,6 +909,25 @@
   </div>
 </div>
 
+<div class="modal-backdrop" id="partnersModal" onclick="if(event.target===this) closePartners()">
+  <div class="modal-card">
+    <button class="modal-close" onclick="closePartners()">×</button>
+    <h3>المكاتب الشريكة</h3>
+
+    <div class="policy-item">
+      <b>إيه هي المكاتب الشريكة؟</b>
+      <p>مكاتب عقارية بنتعاون معاها بشكل شراكة — بتعرض وحداتها من خلال موقع NEX•ON، وإحنا بنتولى تسويقها والتواصل مع العملاء المهتمين بنفس المصداقية والتوثيق اللي بنقدمه في كل وحدة.</p>
+    </div>
+
+    <div class="policy-item" style="border-bottom:none; padding-bottom:0;">
+      <b>المكاتب الشريكة حاليًا</b>
+      <div class="partners-list" id="partnersList">
+        <p class="partners-empty">جارِ تحميل بيانات المكاتب الشريكة...</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
   const WHATS_NUM = "201105247611";
   const CALL_NUM = "01105247611";
@@ -854,9 +941,38 @@
   const CHEVRON_SVG = '<svg viewBox="0 0 24 24"><path d="M12 15.5 4.5 8l1.4-1.4L12 12.7l6.1-6.1L19.5 8z"/></svg>';
   const WHATS_SVG = '<svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.1-.4-2.1-1.3-.8-.7-1.3-1.6-1.5-1.8-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.3-.4.1-.2 0-.4 0-.5C11 9.4 10.5 8 10.3 7.6c-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9 1-.9 2.3s1 2.6 1.1 2.8c.1.2 2 3 4.8 4.2.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.1-.3-.2-.6-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.2L2 22l4.9-1.4C8.4 21.5 10.2 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.1.9.9-3-.2-.3C4.2 14.9 3.8 13.5 3.8 12c0-4.5 3.7-8.2 8.2-8.2s8.2 3.7 8.2 8.2-3.7 8.2-8.2 8.2z"/></svg>';
   const CALL_SVG = '<svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.7 3.7 5 6.4 6.4l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.6c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.4 0 .8-.2 1z"/></svg>';
+  const LINK_SVG = '<svg viewBox="0 0 24 24"><path d="M3.9 12c0-1.7 1.4-3.1 3.1-3.1h4V7H7C4.2 7 2 9.2 2 12s2.2 5 5 5h4v-1.9H7c-1.7 0-3.1-1.4-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.7 0 3.1 1.4 3.1 3.1s-1.4 3.1-3.1 3.1h-4V17h4c2.8 0 5-2.2 5-5s-2.2-5-5-5z"/></svg>';
+  const CHECK_SVG = '<svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>';
 
   function trackEvent(name, params){
     if (typeof gtag === "function") gtag('event', name, params || {});
+  }
+
+  function copyCardLink(id, btn){
+    const url = location.origin + location.pathname + '#' + id;
+    const done = () => {
+      btn.classList.add('copied');
+      btn.innerHTML = CHECK_SVG;
+      trackEvent('copy_link', { property_id: id });
+      setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = LINK_SVG; }, 1600);
+    };
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(url).then(done).catch(() => fallbackCopyText(url, done));
+    } else {
+      fallbackCopyText(url, done);
+    }
+  }
+
+  function fallbackCopyText(text, cb){
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch(e){}
+    document.body.removeChild(ta);
+    if (cb) cb();
   }
 
   function renderCard(p){
@@ -912,10 +1028,15 @@
           <div class="plaque-price">${esc(p.price_num)}<small>${esc(p.price_note)}</small></div>
         </div>
         ${highlightHtml}
-        <button class="toggle-btn" onclick="toggleCard('${esc(p.id)}')">
-          <span>عرض التفاصيل</span>
-          ${CHEVRON_SVG}
-        </button>
+        <div class="plaque-actions">
+          <button class="toggle-btn" onclick="toggleCard('${esc(p.id)}')">
+            <span>عرض التفاصيل</span>
+            ${CHEVRON_SVG}
+          </button>
+          <button type="button" class="copy-link-btn" title="نسخ رابط الوحدة" onclick="copyCardLink('${esc(p.id)}', this)">
+            ${LINK_SVG}
+          </button>
+        </div>
       </div>
       ${updatedHtml}
       <div class="detail">
@@ -1030,14 +1151,53 @@
   function closePolicy(){
     document.getElementById('policyModal').classList.remove('show');
   }
+  function openPartners(){
+    document.getElementById('partnersModal').classList.add('show');
+    trackEvent('view_partners', {});
+  }
+  function closePartners(){
+    document.getElementById('partnersModal').classList.remove('show');
+  }
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closePolicy();
+    if (e.key === 'Escape') { closePolicy(); closePartners(); }
   });
 
   const topnav = document.getElementById('topnav');
   window.addEventListener('scroll', () => {
     topnav.classList.toggle('solid', window.scrollY > window.innerHeight * 0.7);
   }, { passive: true });
+
+  function renderPartner(p){
+    const logoHtml = p.logo
+      ? `<img class="partner-logo" src="${esc(p.logo)}" alt="${esc(p.name)}" loading="lazy" onerror="this.style.visibility='hidden'">`
+      : `<div class="partner-logo"></div>`;
+    const locHtml = p.location ? `<div class="partner-loc">${esc(p.location)}</div>` : '';
+    const infoHtml = p.info ? `<div class="partner-info-text">${esc(p.info)}</div>` : '';
+    return `
+      <div class="partner-card">
+        ${logoHtml}
+        <div class="partner-info">
+          <b>${esc(p.name)}</b>
+          ${locHtml}
+          ${infoHtml}
+        </div>
+      </div>`;
+  }
+
+  fetch('partners.json?t=' + Date.now())
+    .then(r => r.ok ? r.json() : [])
+    .then(list => {
+      const el = document.getElementById('partnersList');
+      if (!Array.isArray(list) || !list.length) {
+        el.innerHTML = '<p class="partners-empty">لسه مفيش مكاتب شريكة معلنة حاليًا.</p>';
+        return;
+      }
+      el.innerHTML = list.map(renderPartner).join('');
+    })
+    .catch(() => {
+      const el = document.getElementById('partnersList');
+      if (el) el.innerHTML = '<p class="partners-empty">لسه مفيش مكاتب شريكة معلنة حاليًا.</p>';
+    });
 
   fetch('properties.json?t=' + Date.now())
     .then(r => r.json())
@@ -1048,6 +1208,13 @@
       wireMediaInteractions();
       wireFilters();
       wireScrollReveal();
+      if (location.hash) {
+        const id = location.hash.slice(1);
+        const card = document.getElementById(id);
+        if (card && card.classList.contains('plaque')) {
+          setTimeout(() => toggleCard(id), 300);
+        }
+      }
     })
     .catch(err => {
       document.getElementById('grid').innerHTML = '<p style="grid-column:1/-1; text-align:center; color:var(--stone);">تعذر تحميل بيانات الوحدات. حاول تحديث الصفحة.</p>';

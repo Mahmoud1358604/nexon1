@@ -309,6 +309,40 @@
     <button class="btn secondary" id="loadListBtn" style="margin-top:0.8rem">تحميل القائمة</button>
   </div>
 
+  <div style="height:2.4rem; border-top:1px dashed var(--line); margin:0.4rem 0 2rem;"></div>
+
+  <form id="partnerForm">
+    <div class="card">
+      <h2><span class="n">🤝</span> إضافة مكتب شريك</h2>
+      <div class="field">
+        <label>اسم الشركة / المكتب</label>
+        <input type="text" id="pName" required>
+      </div>
+      <div class="field">
+        <label>موقع المكتب (مثال: شارع 12، جسر السويس)</label>
+        <input type="text" id="pLocation">
+      </div>
+      <div class="field">
+        <label>بيانات عن المكتب (اختياري)</label>
+        <textarea id="pInfo" placeholder="نبذة مختصرة عن الشركة أو المكتب..."></textarea>
+      </div>
+      <div class="field">
+        <label>لوجو المكتب</label>
+        <div class="file-drop" id="partnerLogoDrop">اضغط لاختيار لوجو من جهازك</div>
+        <input type="file" id="partnerLogoInput" accept="image/*">
+        <div class="preview-strip" id="partnerLogoPreview"></div>
+      </div>
+    </div>
+    <button type="submit" class="btn" id="partnerSubmitBtn">نشر المكتب الشريك</button>
+    <div class="status" id="partnerStatus"></div>
+  </form>
+
+  <div class="card">
+    <h2><span class="n">↺</span> المكاتب الشريكة الحالية</h2>
+    <div id="currentPartnersList" style="color:var(--stone); font-size:0.85rem;">اضغط تحميل عشان تشوف المكاتب الحالية</div>
+    <button class="btn secondary" id="loadPartnersBtn" style="margin-top:0.8rem">تحميل القائمة</button>
+  </div>
+
 </div>
 
 <script>
@@ -661,6 +695,135 @@
         listEl.appendChild(row);
       });
       if (!list.length) listEl.textContent = "مفيش وحدات حاليًا.";
+    } catch (err) {
+      listEl.textContent = "تعذر التحميل: " + err.message;
+    }
+  });
+
+  // =========================================================
+  // ---- PARTNER OFFICES (separate section, own file) ----
+  // =========================================================
+
+  async function ghGetFileOptional(path){
+    const res = await fetch(`${repoBase()}/contents/${path}`, { headers: ghHeaders() });
+    if (res.status === 404) return { content: "[]", sha: null };
+    if (!res.ok) throw new Error(`تعذر تحميل ${path} (${res.status})`);
+    const data = await res.json();
+    const content = decodeURIComponent(escape(atob(data.content.replace(/\n/g,""))));
+    return { content, sha: data.sha };
+  }
+
+  async function nextPartnerId(){
+    const { content } = await ghGetFileOptional("partners.json");
+    const list = JSON.parse(content || "[]");
+    let max = 0;
+    list.forEach(p => {
+      const m = /^b(\d+)$/.exec(p.id);
+      if (m) max = Math.max(max, parseInt(m[1], 10));
+    });
+    return { id: "b" + (max + 1), list };
+  }
+
+  function setPartnerStatus(msg, kind){
+    const el = $("#partnerStatus");
+    el.textContent = msg;
+    el.className = "status show " + kind;
+  }
+
+  let partnerLogoFile = null;
+  $("#partnerLogoDrop").addEventListener("click", () => $("#partnerLogoInput").click());
+  $("#partnerLogoInput").addEventListener("change", e => {
+    partnerLogoFile = e.target.files[0];
+    $("#partnerLogoPreview").innerHTML = "";
+    if (partnerLogoFile) {
+      $("#partnerLogoDrop").textContent = "✓ " + partnerLogoFile.name;
+      $("#partnerLogoDrop").classList.add("has-file");
+      const img = document.createElement("img");
+      img.src = URL.createObjectURL(partnerLogoFile);
+      $("#partnerLogoPreview").appendChild(img);
+    }
+  });
+
+  $("#partnerForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    persistCreds();
+    if (!tokenEl.value.trim()) { setPartnerStatus("لازم تحط مفتاح الدخول الأول (خطوة 1 فوق)", "err"); return; }
+    if (!partnerLogoFile) { setPartnerStatus("لازم تختار لوجو للمكتب", "err"); return; }
+
+    const btn = $("#partnerSubmitBtn");
+    btn.disabled = true;
+
+    try {
+      setPartnerStatus("جارِ تجهيز البيانات...", "busy");
+      const { id, list } = await nextPartnerId();
+
+      const ext = (partnerLogoFile.name.split(".").pop() || "png").toLowerCase();
+      const logoPath = `partner-logo-${id}.${ext}`;
+      const logoB64 = await fileToBase64(partnerLogoFile);
+
+      const partner = {
+        id,
+        name: $("#pName").value.trim(),
+        location: $("#pLocation").value.trim(),
+        info: $("#pInfo").value.trim(),
+        logo: logoPath
+      };
+      list.push(partner);
+
+      const partnersB64 = btoa(unescape(encodeURIComponent(JSON.stringify(list, null, 2))));
+      const filesToCommit = [
+        { path: logoPath, base64: logoB64 },
+        { path: "partners.json", base64: partnersB64 }
+      ];
+
+      setPartnerStatus("جارِ رفع اللوجو والبيانات على GitHub...", "busy");
+      await ghCommitFiles(filesToCommit, `إضافة مكتب شريك ${id}`, (done, total) => {
+        setPartnerStatus(`جارِ الرفع... (${done}/${total})`, "busy");
+      });
+
+      setPartnerStatus("تم نشر المكتب الشريك بنجاح! هيظهر على الموقع خلال دقيقة تقريبًا.", "ok");
+      $("#partnerForm").reset();
+      partnerLogoFile = null;
+      $("#partnerLogoDrop").textContent = "اضغط لاختيار لوجو من جهازك";
+      $("#partnerLogoDrop").classList.remove("has-file");
+      $("#partnerLogoPreview").innerHTML = "";
+    } catch (err) {
+      console.error(err);
+      setPartnerStatus("حصل خطأ: " + err.message, "err");
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  $("#loadPartnersBtn").addEventListener("click", async () => {
+    if (!tokenEl.value.trim()) { alert("حط مفتاح الدخول الأول"); return; }
+    const listEl = $("#currentPartnersList");
+    listEl.textContent = "جارِ التحميل...";
+    try {
+      const { content } = await ghGetFileOptional("partners.json");
+      const list = JSON.parse(content || "[]");
+      listEl.innerHTML = "";
+      list.forEach(p => {
+        const row = document.createElement("div");
+        row.className = "listing";
+        row.innerHTML = `
+          <img src="https://raw.githubusercontent.com/${ownerEl.value.trim()}/${repoEl.value.trim()}/main/${p.logo}" onerror="this.style.display='none'">
+          <div class="info"><b>${p.name}</b><span>${p.location || ""}</span></div>
+          <button data-act="del">حذف</button>`;
+
+        row.querySelector('[data-act="del"]').addEventListener("click", async () => {
+          if (!confirm(`متأكد إنك عايز تحذف ${p.name}؟`)) return;
+          try {
+            const fresh = await ghGetFile("partners.json");
+            const freshList = JSON.parse(fresh.content).filter(x => x.id !== p.id);
+            await ghPutFile("partners.json", JSON.stringify(freshList, null, 2), fresh.sha, `حذف مكتب شريك ${p.id}`);
+            row.remove();
+          } catch(err){ alert("تعذر الحذف: " + err.message); }
+        });
+
+        listEl.appendChild(row);
+      });
+      if (!list.length) listEl.textContent = "مفيش مكاتب شريكة حاليًا.";
     } catch (err) {
       listEl.textContent = "تعذر التحميل: " + err.message;
     }
