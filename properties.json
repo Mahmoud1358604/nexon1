@@ -457,5 +457,31 @@
     "media_type": "video",
     "image": "image-p22.jpg",
     "video": "video-p22.mp4"
+  },
+  {
+    "id": "p23",
+    "status": "sale",
+    "tag": "الدور الثالث",
+    "loc": "شقه مميزه علي ال12 مباشر",
+    "floor": "3",
+    "price_num": "935,000",
+    "price_note": "شامل",
+    "highlight": "",
+    "updated": "2026-08-11",
+    "specs": [
+      [
+        "التصالح",
+        "نموزج 3"
+      ],
+      [
+        "الدور",
+        "3"
+      ]
+    ],
+    "feats": "",
+    "wa_text": "استفسار عن شقه مميزه علي ال12 مباشر",
+    "media_type": "video",
+    "image": "image-p23.jpg",
+    "video": "video-p23.mp4"
   }
 ]
