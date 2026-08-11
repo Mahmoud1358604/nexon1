@@ -199,6 +199,10 @@
       <label>مفتاح الدخول (Personal Access Token)</label>
       <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
       <div class="token-saved" id="tokenSaved">✓ محفوظ على الجهاز ده</div>
+      <button type="button" class="btn secondary" id="clearCredsBtn" style="margin-top:0.6rem; font-size:0.78rem; padding:0.55rem;">امسح البيانات المحفوظة من الجهاز ده</button>
+      <p style="font-size:0.76rem; color:var(--stone); margin-top:0.5rem; font-family:'IBM Plex Sans Arabic', sans-serif; line-height:1.8;">
+        المفتاح بيتخزن على جهازك بس (مش على أي سيرفر تاني). ما تفتحش الصفحة دي على جهاز حد تاني أو جهاز عام، ولو حصل وفتحتها، اضغط الزرار ده بعد ما تخلص.
+      </p>
     </div>
     <div class="row2">
       <div class="field">
@@ -356,11 +360,83 @@
     <button class="btn secondary" id="loadPartnersBtn" style="margin-top:0.8rem">تحميل القائمة</button>
   </div>
 
+  <div class="card">
+    <h2><span class="n">🧹</span> تنظيف الملفات الميتة</h2>
+    <p style="color:var(--stone); font-size:0.82rem; margin:0 0 1rem; font-family:'IBM Plex Sans Arabic', sans-serif; line-height:1.9;">
+      بيدوّر بس على ملفات صور/فيديوهات/لوجوهات مولّدة تلقائيًا (زي image-، video-، partner-logo-) ومش مرتبطة بأي عقار أو مكتب شريك حاليًا في properties.json أو partners.json. أي ملف تاني في المستودع (index.html، admin.html، الملفين نفسهم، أو أي حاجة تانية) متضمنش خالص في الفحص ومش هيتلمس.
+    </p>
+    <div id="deadFilesResult" style="font-size:0.85rem; color:var(--stone);"></div>
+    <button class="btn secondary" id="scanDeadBtn" style="margin-top:0.8rem">فحص الملفات الميتة</button>
+    <button class="btn" id="deleteDeadBtn" style="margin-top:0.6rem; display:none; background:var(--err); color:#fff;">تأكيد حذف المحدد</button>
+    <div class="status" id="cleanupStatus"></div>
+  </div>
+
 </div>
 
 <script>
   const $ = sel => document.querySelector(sel);
   const API = "https://api.github.com";
+
+  // ---- security: escape any dynamic text before it goes into innerHTML ----
+  function esc(s){
+    return String(s == null ? "" : s).replace(/[&<>"']/g, c => ({
+      "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+    }[c]));
+  }
+
+  // ---- turn any error (ours or GitHub's raw English messages) into Arabic ----
+  function friendlyError(err){
+    const raw = (err && err.message) ? String(err.message) : String(err || "خطأ غير معروف");
+    const map = [
+      [/bad credentials/i, "مفتاح الدخول (Token) غلط أو منتهي الصلاحية. تأكد منه في خطوة 1"],
+      [/rate limit/i, "تجاوزت الحد المسموح من الطلبات على جيت هب مؤقتًا. استنى دقيقة وجرب تاني"],
+      [/not accessible by (personal access token|integration)|resource not accessible/i, "مفتاح الدخول مالوش صلاحية كافية على المستودع ده. تأكد إنه معمول له Read and write على Contents"],
+      [/bad\s*request/i, "الطلب فيه مشكلة، جرب تاني"],
+      [/not found/i, "الملف أو المستودع مش موجود. تأكد من اسم المستخدم واسم المستودع في خطوة 1"],
+      [/sha wasn.?t (supplied|provided)|does not match|409/i, "حصل تعارض لأن البيانات اتغيرت في نفس الوقت. اضغط تحميل القائمة تاني وجرب من جديد"],
+      [/exceeds the maximum|too large|payload too large|413/i, "حجم الملف كبير جدًا على الرفع. جرب تصغّر حجم الفيديو أو تقصّر مدته"],
+      [/failed to fetch|networkerror|load failed|network request failed/i, "تعذر الاتصال بالإنترنت. اتأكد من الشبكة وجرب تاني"],
+      [/unprocessable|422/i, "البيانات المرسلة فيها مشكلة. تأكد من كل الحقول وجرب تاني"],
+      [/forbidden|403/i, "الوصول ممنوع. تأكد من صلاحيات مفتاح الدخول"],
+      [/انتهت المهلة|timeout/i, "العملية استغرقت وقت أطول من المتوقع. جرب تاني، ولو الفيديو كبير جرب تصغّره"]
+    ];
+    for (const [re, ar] of map) { if (re.test(raw)) return `${ar} (${raw})`; }
+    if (/[\u0600-\u06FF]/.test(raw)) return raw; // already one of our own Arabic messages
+    return "حصل خطأ غير متوقع: " + raw;
+  }
+
+  // ---- retry transient network/server failures automatically before giving up ----
+  async function fetchWithRetry(url, opts, retries = 2, backoffMs = 1200){
+    for (let attempt = 0; attempt <= retries; attempt++){
+      try {
+        const res = await fetch(url, opts);
+        if (!res.ok && (res.status >= 500 || res.status === 429) && attempt < retries) {
+          await new Promise(r => setTimeout(r, backoffMs * (attempt + 1)));
+          continue;
+        }
+        return res;
+      } catch (netErr) {
+        if (attempt < retries) {
+          await new Promise(r => setTimeout(r, backoffMs * (attempt + 1)));
+          continue;
+        }
+        throw netErr;
+      }
+    }
+  }
+
+  function withTimeout(promise, ms){
+    return new Promise((resolve, reject) => {
+      const t = setTimeout(() => reject(new Error("انتهت المهلة")), ms);
+      promise.then(v => { clearTimeout(t); resolve(v); }, e => { clearTimeout(t); reject(e); });
+    });
+  }
+
+  // ---- warn before leaving the page mid-upload so nothing is lost silently ----
+  let uploadInProgress = false;
+  window.addEventListener("beforeunload", (e) => {
+    if (uploadInProgress) { e.preventDefault(); e.returnValue = ""; }
+  });
 
   // ---- token persistence ----
   const tokenEl = $("#ghToken"), ownerEl = $("#ghOwner"), repoEl = $("#ghRepo");
@@ -382,6 +458,14 @@
   }
   [tokenEl, ownerEl, repoEl].forEach(el => el.addEventListener("change", persistCreds));
 
+  $("#clearCredsBtn").addEventListener("click", () => {
+    if (!confirm("هيتم مسح مفتاح الدخول المحفوظ من الجهاز ده. متأكد؟")) return;
+    localStorage.removeItem("nexon_admin_creds");
+    tokenEl.value = "";
+    $("#tokenSaved").classList.remove("show");
+    alert("تم المسح. لازم تحط مفتاح الدخول تاني عشان تكمل شغل.");
+  });
+
   function ghHeaders(){
     return {
       "Authorization": "Bearer " + tokenEl.value.trim(),
@@ -393,7 +477,7 @@
   }
 
   async function ghGetFile(path){
-    const res = await fetch(`${repoBase()}/contents/${path}`, { headers: ghHeaders() });
+    const res = await fetchWithRetry(`${repoBase()}/contents/${path}`, { headers: ghHeaders() });
     if (!res.ok) throw new Error(`تعذر تحميل ${path} (${res.status})`);
     const data = await res.json();
     const content = decodeURIComponent(escape(atob(data.content.replace(/\n/g,""))));
@@ -404,7 +488,7 @@
     const b64 = btoa(unescape(encodeURIComponent(contentStr)));
     const body = { message: message || `تحديث ${path}`, content: b64, branch: "main" };
     if (sha) body.sha = sha;
-    const res = await fetch(`${repoBase()}/contents/${path}`, {
+    const res = await fetchWithRetry(`${repoBase()}/contents/${path}`, {
       method: "PUT", headers: { ...ghHeaders(), "Content-Type": "application/json" },
       body: JSON.stringify(body)
     });
@@ -420,17 +504,17 @@
   // one or more files atomically in a single commit, and has no sha-conflict
   // issue on retry because it always builds from the current branch tip.
   async function ghGetRef(branch){
-    const res = await fetch(`${repoBase()}/git/ref/heads/${branch}`, { headers: ghHeaders() });
+    const res = await fetchWithRetry(`${repoBase()}/git/ref/heads/${branch}`, { headers: ghHeaders() });
     if (!res.ok) throw new Error(`تعذر قراءة الفرع (${res.status})`);
     return res.json();
   }
   async function ghGetCommit(sha){
-    const res = await fetch(`${repoBase()}/git/commits/${sha}`, { headers: ghHeaders() });
+    const res = await fetchWithRetry(`${repoBase()}/git/commits/${sha}`, { headers: ghHeaders() });
     if (!res.ok) throw new Error(`تعذر قراءة آخر تحديث (${res.status})`);
     return res.json();
   }
   async function ghCreateBlob(base64Content){
-    const res = await fetch(`${repoBase()}/git/blobs`, {
+    const res = await fetchWithRetry(`${repoBase()}/git/blobs`, {
       method: "POST", headers: { ...ghHeaders(), "Content-Type": "application/json" },
       body: JSON.stringify({ content: base64Content, encoding: "base64" })
     });
@@ -438,7 +522,7 @@
     return res.json();
   }
   async function ghCreateTree(baseTreeSha, entries){
-    const res = await fetch(`${repoBase()}/git/trees`, {
+    const res = await fetchWithRetry(`${repoBase()}/git/trees`, {
       method: "POST", headers: { ...ghHeaders(), "Content-Type": "application/json" },
       body: JSON.stringify({ base_tree: baseTreeSha, tree: entries })
     });
@@ -446,7 +530,7 @@
     return res.json();
   }
   async function ghCreateCommit(message, treeSha, parentSha){
-    const res = await fetch(`${repoBase()}/git/commits`, {
+    const res = await fetchWithRetry(`${repoBase()}/git/commits`, {
       method: "POST", headers: { ...ghHeaders(), "Content-Type": "application/json" },
       body: JSON.stringify({ message, tree: treeSha, parents: [parentSha] })
     });
@@ -454,7 +538,7 @@
     return res.json();
   }
   async function ghUpdateRef(branch, commitSha){
-    const res = await fetch(`${repoBase()}/git/refs/heads/${branch}`, {
+    const res = await fetchWithRetry(`${repoBase()}/git/refs/heads/${branch}`, {
       method: "PATCH", headers: { ...ghHeaders(), "Content-Type": "application/json" },
       body: JSON.stringify({ sha: commitSha })
     });
@@ -510,6 +594,30 @@
       });
       video.addEventListener("error", reject);
     });
+  }
+
+  // Some phone video formats/codecs fail silently at the poster-capture step
+  // (metadata never loads, seek never fires...). That used to kill the whole
+  // upload. Now a capture glitch falls back to a plain placeholder image
+  // instead of blocking the video itself from publishing.
+  async function captureVideoPosterSafe(file){
+    try {
+      return await withTimeout(captureVideoPoster(file), 10000);
+    } catch (e) {
+      const canvas = document.createElement("canvas");
+      canvas.width = 640; canvas.height = 360;
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = "#15130f"; ctx.fillRect(0, 0, 640, 360);
+      ctx.fillStyle = "#b58c48"; ctx.font = "bold 30px sans-serif"; ctx.textAlign = "center";
+      ctx.fillText("NEX•ON", 320, 190);
+      return await new Promise((resolve) => {
+        canvas.toBlob(blob => {
+          const fr = new FileReader();
+          fr.onload = () => resolve(fr.result.split(",")[1]);
+          fr.readAsDataURL(blob);
+        }, "image/jpeg", 0.85);
+      });
+    }
   }
 
   // ---- media type toggle ----
@@ -646,8 +754,18 @@
     if (mediaType === "video" && !videoFile && !reusingMedia) { setStatus("لازم تختار فيديو", "err"); return; }
     if (mediaType === "gallery" && galleryFiles.length === 0 && !reusingMedia) { setStatus("لازم تختار صورة واحدة على الأقل", "err"); return; }
 
+    const MAX_VIDEO_MB = 100;
+    if (mediaType === "video" && videoFile) {
+      const sizeMB = videoFile.size / (1024 * 1024);
+      if (sizeMB > MAX_VIDEO_MB) {
+        setStatus(`حجم الفيديو ${sizeMB.toFixed(0)} ميجا، وده أكبر من الحد الأقصى المسموح بيه تقريبًا (${MAX_VIDEO_MB} ميجا) وهيفشل أكيد لو اتبعت كده. قصّر مدة الفيديو أو صغّر جودته وجرب تاني.`, "err");
+        return;
+      }
+    }
+
     const btn = $("#submitBtn");
     btn.disabled = true;
+    uploadInProgress = true;
 
     try {
       setStatus("جارِ تجهيز البيانات...", "busy");
@@ -683,8 +801,9 @@
 
       if (mediaType === "video") {
         if (videoFile) {
-          setStatus("جارِ استخراج صورة من الفيديو...", "busy");
-          const posterB64 = await captureVideoPoster(videoFile);
+          const sizeMB = videoFile.size / (1024 * 1024);
+          setStatus(sizeMB > 60 ? `جارِ استخراج صورة من الفيديو (الحجم ~${sizeMB.toFixed(0)} ميجا، ممكن ياخد وقت حسب سرعة النت)...` : "جارِ استخراج صورة من الفيديو...", "busy");
+          const posterB64 = await captureVideoPosterSafe(videoFile);
           setStatus("جارِ تجهيز الفيديو للرفع...", "busy");
           const videoB64 = await fileToBase64(videoFile);
           filesToCommit.push({ path: `video-${id}.mp4`, base64: videoB64 });
@@ -744,9 +863,10 @@
       }
     } catch (err) {
       console.error(err);
-      setStatus("حصل خطأ: " + err.message, "err");
+      setStatus(friendlyError(err), "err");
     } finally {
       btn.disabled = false;
+      uploadInProgress = false;
     }
   });
 
@@ -766,10 +886,10 @@
         const soldLabel = p.status === "rent" ? "تم الإيجار" : "تم البيع";
         const soldBtnLabel = p.sold ? "إلغاء " + soldLabel : soldLabel;
         row.innerHTML = `
-          <img src="https://raw.githubusercontent.com/${ownerEl.value.trim()}/${repoEl.value.trim()}/main/${imgSrc}" onerror="this.style.display='none'">
-          <div class="info"><b>${p.loc}${p.sold ? " · <span style=\"color:var(--brass-light)\">"+soldLabel+"</span>" : ""}</b><span>${p.tag} · ${p.price_num}</span></div>
+          <img src="https://raw.githubusercontent.com/${esc(ownerEl.value.trim())}/${esc(repoEl.value.trim())}/main/${esc(imgSrc)}" onerror="this.style.display='none'">
+          <div class="info"><b>${esc(p.loc)}${p.sold ? " · <span style=\"color:var(--brass-light)\">"+esc(soldLabel)+"</span>" : ""}</b><span>${esc(p.tag)} · ${esc(p.price_num)}</span></div>
           <button data-act="edit" style="border-color:var(--stone); color:var(--paper);">تعديل</button>
-          <button data-act="sold" style="border-color:var(--brass); color:var(--brass-light);">${soldBtnLabel}</button>
+          <button data-act="sold" style="border-color:var(--brass); color:var(--brass-light);">${esc(soldBtnLabel)}</button>
           <button data-act="del">حذف</button>`;
 
         row.querySelector('[data-act="edit"]').addEventListener("click", () => enterEditMode(p));
@@ -784,7 +904,7 @@
             await ghPutFile("properties.json", JSON.stringify(freshList, null, 2), fresh.sha, `${target.sold ? "تحديد" : "إلغاء"} ${soldLabel} ${p.id}`);
             p.sold = target.sold;
             $("#loadListBtn").click();
-          } catch(err){ alert("تعذر التحديث: " + err.message); }
+          } catch(err){ alert(friendlyError(err)); }
         });
 
         row.querySelector('[data-act="del"]').addEventListener("click", async () => {
@@ -794,14 +914,14 @@
             const freshList = JSON.parse(fresh.content).filter(x => x.id !== p.id);
             await ghPutFile("properties.json", JSON.stringify(freshList, null, 2), fresh.sha, `حذف عقار ${p.id}`);
             row.remove();
-          } catch(err){ alert("تعذر الحذف: " + err.message); }
+          } catch(err){ alert(friendlyError(err)); }
         });
 
         listEl.appendChild(row);
       });
       if (!list.length) listEl.textContent = "مفيش وحدات حاليًا.";
     } catch (err) {
-      listEl.textContent = "تعذر التحميل: " + err.message;
+      listEl.textContent = friendlyError(err);
     }
   });
 
@@ -810,7 +930,7 @@
   // =========================================================
 
   async function ghGetFileOptional(path){
-    const res = await fetch(`${repoBase()}/contents/${path}`, { headers: ghHeaders() });
+    const res = await fetchWithRetry(`${repoBase()}/contents/${path}`, { headers: ghHeaders() });
     if (res.status === 404) return { content: "[]", sha: null };
     if (!res.ok) throw new Error(`تعذر تحميل ${path} (${res.status})`);
     const data = await res.json();
@@ -857,6 +977,7 @@
 
     const btn = $("#partnerSubmitBtn");
     btn.disabled = true;
+    uploadInProgress = true;
 
     try {
       setPartnerStatus("جارِ تجهيز البيانات...", "busy");
@@ -894,9 +1015,10 @@
       $("#partnerLogoPreview").innerHTML = "";
     } catch (err) {
       console.error(err);
-      setPartnerStatus("حصل خطأ: " + err.message, "err");
+      setPartnerStatus(friendlyError(err), "err");
     } finally {
       btn.disabled = false;
+      uploadInProgress = false;
     }
   });
 
@@ -912,8 +1034,8 @@
         const row = document.createElement("div");
         row.className = "listing";
         row.innerHTML = `
-          <img src="https://raw.githubusercontent.com/${ownerEl.value.trim()}/${repoEl.value.trim()}/main/${p.logo}" onerror="this.style.display='none'">
-          <div class="info"><b>${p.name}</b><span>${p.location || ""}</span></div>
+          <img src="https://raw.githubusercontent.com/${esc(ownerEl.value.trim())}/${esc(repoEl.value.trim())}/main/${esc(p.logo)}" onerror="this.style.display='none'">
+          <div class="info"><b>${esc(p.name)}</b><span>${esc(p.location || "")}</span></div>
           <button data-act="del">حذف</button>`;
 
         row.querySelector('[data-act="del"]').addEventListener("click", async () => {
@@ -923,14 +1045,173 @@
             const freshList = JSON.parse(fresh.content).filter(x => x.id !== p.id);
             await ghPutFile("partners.json", JSON.stringify(freshList, null, 2), fresh.sha, `حذف مكتب شريك ${p.id}`);
             row.remove();
-          } catch(err){ alert("تعذر الحذف: " + err.message); }
+          } catch(err){ alert(friendlyError(err)); }
         });
 
         listEl.appendChild(row);
       });
       if (!list.length) listEl.textContent = "مفيش مكاتب شريكة حاليًا.";
     } catch (err) {
-      listEl.textContent = "تعذر التحميل: " + err.message;
+      listEl.textContent = friendlyError(err);
+    }
+  });
+
+  // =========================================================
+  // ---- DEAD FILE CLEANUP ----
+  // Safety model:
+  //  1) Only filenames matching the exact auto-generated naming
+  //     patterns this admin panel itself creates are ever candidates.
+  //     Anything else (index.html, admin.html, properties.json,
+  //     partners.json, README, favicon, custom files...) can never
+  //     match and is never touched.
+  //  2) A file is only "dead" if its name does not appear anywhere
+  //     in properties.json's image/video/images fields or in
+  //     partners.json's logo field.
+  //  3) Scanning is fully read-only. Nothing is deleted until the
+  //     user reviews the exact list and explicitly confirms.
+  //  4) Right before deleting, everything is re-checked again
+  //     against a fresh copy of properties.json/partners.json, so a
+  //     file added/reused between the scan and the click is
+  //     automatically skipped rather than deleted.
+  //  5) If properties.json or partners.json fail to load or parse
+  //     for any reason, the whole operation aborts with an error
+  //     instead of guessing — no deletion happens on incomplete data.
+  // =========================================================
+
+  const MEDIA_NAME_PATTERNS = [
+    /^image-\d+\.[a-zA-Z0-9]+$/,          // legacy single image: image-01.jpg
+    /^video-\d+\.[a-zA-Z0-9]+$/,          // legacy video: video-01.mp4
+    /^image-p\d+\.[a-zA-Z0-9]+$/,         // current single image: image-p12.jpg
+    /^video-p\d+\.[a-zA-Z0-9]+$/,         // current video: video-p12.mp4
+    /^image-p\d+-\d+\.[a-zA-Z0-9]+$/,     // current gallery image: image-p9-1.jpg
+    /^partner-logo-b\d+\.[a-zA-Z0-9]+$/   // partner logo: partner-logo-b1.png
+  ];
+
+  function isManagedMediaName(name){
+    return MEDIA_NAME_PATTERNS.some(re => re.test(name));
+  }
+
+  async function ghListRootFiles(){
+    const res = await fetchWithRetry(`${repoBase()}/contents/`, { headers: ghHeaders() });
+    if (!res.ok) throw new Error(`تعذر قراءة محتويات المستودع (${res.status})`);
+    const data = await res.json();
+    if (!Array.isArray(data)) throw new Error("رد غير متوقع من جيت هب أثناء قراءة المستودع");
+    return data.filter(f => f.type === "file");
+  }
+
+  async function buildReferencedMediaSet(){
+    const refs = new Set();
+
+    let propsList;
+    try {
+      const { content } = await ghGetFile("properties.json");
+      propsList = JSON.parse(content);
+    } catch(e) {
+      throw new Error("تعذر قراءة properties.json بأمان، فتوقفنا من غير ما نحذف حاجة: " + e.message);
+    }
+    propsList.forEach(p => {
+      if (p.image) refs.add(p.image);
+      if (p.video) refs.add(p.video);
+      if (Array.isArray(p.images)) p.images.forEach(im => refs.add(im));
+    });
+
+    let partnersList;
+    try {
+      const { content } = await ghGetFileOptional("partners.json");
+      partnersList = JSON.parse(content || "[]");
+    } catch(e) {
+      throw new Error("تعذر قراءة partners.json بأمان، فتوقفنا من غير ما نحذف حاجة: " + e.message);
+    }
+    partnersList.forEach(p => { if (p.logo) refs.add(p.logo); });
+
+    return refs;
+  }
+
+  function setCleanupStatus(msg, kind){
+    const el = $("#cleanupStatus");
+    el.textContent = msg;
+    el.className = "status show " + (kind || "");
+  }
+
+  $("#scanDeadBtn").addEventListener("click", async () => {
+    if (!tokenEl.value.trim()) { alert("حط مفتاح الدخول الأول"); return; }
+    const resultEl = $("#deadFilesResult");
+    $("#deleteDeadBtn").style.display = "none";
+    resultEl.innerHTML = "جارِ الفحص...";
+    setCleanupStatus("", "");
+
+    try {
+      const [allFiles, referenced] = await Promise.all([ghListRootFiles(), buildReferencedMediaSet()]);
+      const candidates = allFiles.filter(f => isManagedMediaName(f.name));
+      const dead = candidates.filter(f => !referenced.has(f.name));
+
+      if (!dead.length) {
+        resultEl.innerHTML = `<p style="color:var(--ok);">مفيش ملفات ميتة، كل حاجة نضيفة ✓ (${candidates.length} ملف اتفحص من إجمالي ${allFiles.length})</p>`;
+        return;
+      }
+
+      resultEl.innerHTML =
+        `<p style="margin-bottom:0.6rem;">لقيت ${dead.length} ملف مش مرتبط بأي عقار أو مكتب شريك حاليًا:</p>` +
+        dead.map(f => `
+          <label style="display:flex; align-items:center; gap:0.5rem; padding:0.45rem 0; border-bottom:1px solid var(--line); font-size:0.82rem; cursor:pointer;">
+            <input type="checkbox" class="dead-file-check" value="${esc(f.name)}" checked>
+            <span>${esc(f.name)}</span>
+          </label>`).join("");
+
+      $("#deleteDeadBtn").style.display = "";
+      $("#deleteDeadBtn").textContent = `تأكيد حذف المحدد (${dead.length})`;
+    } catch (err) {
+      console.error(err);
+      resultEl.innerHTML = `<p style="color:var(--err);">تعذر الفحص: ${esc(friendlyError(err))}</p>`;
+    }
+  });
+
+  $("#deleteDeadBtn").addEventListener("click", async () => {
+    const checked = [...document.querySelectorAll(".dead-file-check:checked")].map(c => c.value);
+    if (!checked.length) { alert("مفيش ملفات محددة"); return; }
+    if (!confirm(`متأكد إنك عايز تحذف ${checked.length} ملف نهائيًا من جيت هب؟ الخطوة دي مش قابلة للتراجع.`)) return;
+
+    const btn = $("#deleteDeadBtn");
+    btn.disabled = true;
+    setCleanupStatus("جارِ إعادة التأكد من الملفات قبل الحذف...", "busy");
+
+    try {
+      // Re-verify right before deleting, against a fresh read, so anything
+      // that became referenced since the scan is automatically protected.
+      const [allFiles, referenced] = await Promise.all([ghListRootFiles(), buildReferencedMediaSet()]);
+      const stillDeadNames = new Set(
+        allFiles.filter(f => isManagedMediaName(f.name) && !referenced.has(f.name)).map(f => f.name)
+      );
+
+      let done = 0, failed = [], skipped = [];
+      for (const name of checked) {
+        if (!stillDeadNames.has(name)) { skipped.push(name); continue; }
+        try {
+          setCleanupStatus(`جارِ الحذف... (${done + failed.length + skipped.length + 1}/${checked.length})`, "busy");
+          const fresh = await ghGetFile(name);
+          const res = await fetchWithRetry(`${repoBase()}/contents/${name}`, {
+            method: "DELETE",
+            headers: { ...ghHeaders(), "Content-Type": "application/json" },
+            body: JSON.stringify({ message: `حذف ملف ميت: ${name}`, sha: fresh.sha, branch: "main" })
+          });
+          if (!res.ok) { const e = await res.json().catch(()=>({})); throw new Error(e.message || `فشل حذف ${name} (${res.status})`); }
+          done++;
+        } catch (err) {
+          failed.push(`${name}: ${friendlyError(err)}`);
+        }
+      }
+
+      let msg = `تم حذف ${done} ملف بنجاح.`;
+      if (skipped.length) msg += ` اتحمى تلقائيًا ${skipped.length} ملف لأنه بقى مرتبط بعقار أو مكتب شريك.`;
+      if (failed.length) msg += ` فشل حذف ${failed.length}: ${failed.join(" · ")}`;
+      setCleanupStatus(msg, failed.length ? "err" : "ok");
+
+      $("#scanDeadBtn").click();
+    } catch (err) {
+      console.error(err);
+      setCleanupStatus("حصل خطأ أثناء الحذف، ومحدش اتحذف بعد الخطأ ده: " + friendlyError(err), "err");
+    } finally {
+      btn.disabled = false;
     }
   });
 </script>
