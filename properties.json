@@ -471,5 +471,22 @@
     "media_type": "video",
     "image": "image-p16.jpg",
     "video": "video-p16.mp4"
+  },
+  {
+    "id": "p17",
+    "status": "sale",
+    "tag": "شارع ال12",
+    "loc": "شقه في برج فخم جدا",
+    "floor": "دور عاشر",
+    "price_num": "مليون",
+    "price_note": "قابل لتفاوض",
+    "highlight": "3 غرف و 2 حمام و رسيبشن ومطبخ",
+    "updated": "2026-08-11",
+    "specs": [],
+    "feats": "منفذين علي الشارع + كامل المرافق مياه كهربا غاز ونت ارضي + 3 اسنسير",
+    "wa_text": "استفسار عن شقه في برج فخم جدا",
+    "media_type": "video",
+    "image": "image-p17.jpg",
+    "video": "video-p17.mp4"
   }
 ]
