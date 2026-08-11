@@ -471,5 +471,31 @@
     "media_type": "video",
     "image": "image-p19.jpg",
     "video": "video-p19.mp4"
+  },
+  {
+    "id": "p20",
+    "status": "rent",
+    "tag": "شارع 15",
+    "loc": "سوبر لوكس ايجار",
+    "floor": "12",
+    "price_num": "6000",
+    "price_note": "نهائي",
+    "highlight": "",
+    "updated": "2026-08-11",
+    "specs": [
+      [
+        "الموقع",
+        "شارع 15"
+      ],
+      [
+        "الدور",
+        "12"
+      ]
+    ],
+    "feats": "",
+    "wa_text": "استفسار عن سوبر لوكس ايجار",
+    "media_type": "video",
+    "image": "image-p20.jpg",
+    "video": "video-p20.mp4"
   }
 ]
