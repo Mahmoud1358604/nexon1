@@ -496,6 +496,7 @@
     "wa_text": "استفسار عن سوبر لوكس ايجار",
     "media_type": "video",
     "image": "image-p20.jpg",
-    "video": "video-p20.mp4"
+    "video": "video-p20.mp4",
+    "sold": true
   }
 ]
