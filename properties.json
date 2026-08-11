@@ -383,6 +383,7 @@
     "wa_text": "استفسار عن شقه بدون تشطيب",
     "media_type": "video",
     "image": "image-p19.jpg",
-    "video": "video-p19.mp4"
+    "video": "video-p19.mp4",
+    "sold": true
   }
 ]
