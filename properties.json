@@ -73,7 +73,8 @@
     "wa_text": "استفسار عن شقة الإيجار شارع 17",
     "media_type": "video",
     "image": "image-p8.jpg",
-    "video": "video-p8.mp4"
+    "video": "video-p8.mp4",
+    "sold": true
   },
   {
     "id": "p9",
