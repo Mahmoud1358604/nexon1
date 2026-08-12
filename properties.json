@@ -139,7 +139,8 @@
     "wa_text": "استفسار عن شقة الإيجار طريق 100",
     "media_type": "video",
     "image": "image-p10.jpg",
-    "video": "video-p10.mp4"
+    "video": "video-p10.mp4",
+    "sold": true
   },
   {
     "id": "p11",
