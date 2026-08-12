@@ -864,24 +864,41 @@
     }
     .plaque:not(.open) .plaque-body{
       flex:1; min-width:0;
-      padding:0.6rem 0.85rem;
-      display:flex; flex-direction:column; justify-content:center;
+      padding:0.7rem 0.85rem;
+      display:flex; flex-direction:column; justify-content:flex-start;
+      gap:0.05rem;
+    }
+    .plaque:not(.open) .mobile-chip{
+      display:inline-flex;
+      align-self:flex-start;
+      font-family:'IBM Plex Sans Arabic', sans-serif;
+      font-size:0.62rem;
+      letter-spacing:0.03em;
+      color:var(--bronze);
+      background:rgba(110,78,36,0.09);
+      border:1px solid rgba(110,78,36,0.22);
+      border-radius:3px;
+      padding:0.14rem 0.45rem;
+      margin-bottom:0.35rem;
     }
     .plaque:not(.open) .plaque-loc{
-      font-size:0.92rem;
+      font-size:0.94rem;
       white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
     }
+    .plaque:not(.open) .plaque-loc:empty{ display:none; }
     .plaque:not(.open) .plaque-floor{
       font-size:0.7rem; margin-top:0.15rem;
       white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
     }
-    .plaque:not(.open) .plaque-divider{ margin:0.5rem 0; }
-    .plaque:not(.open) .plaque-row{ align-items:baseline; }
-    .plaque:not(.open) .plaque-price{ font-size:1.02rem; }
-    .plaque:not(.open) .plaque-price small{ font-size:0.6rem; }
+    .plaque:not(.open) .plaque-floor:empty{ display:none; }
+    .plaque:not(.open) .plaque-divider{ margin:0.55rem 0 0.5rem; }
+    .plaque:not(.open) .plaque-row{ align-items:baseline; margin-top:auto; }
+    .plaque:not(.open) .plaque-price{ font-size:1.12rem; }
+    .plaque:not(.open) .plaque-price small{ font-size:0.62rem; }
+    .plaque:not(.open) .trust-badge{ opacity:0.55; }
+    .plaque:not(.open) .trust-badge svg{ width:26px; height:13px; }
 
     .plaque:not(.open) .plaque-tag,
-    .plaque:not(.open) .trust-badge,
     .plaque:not(.open) .plaque-highlight,
     .plaque:not(.open) .plaque-actions,
     .plaque:not(.open) .last-updated,
@@ -1635,6 +1652,7 @@
     <article class="plaque reveal${p.sold ? ' is-sold' : ''}" id="${esc(p.id)}" data-status="${esc(p.status)}">
       ${mediaHtml}
       <div class="plaque-body">
+        <span class="mobile-chip">${esc(p.tag || (p.status === 'rent' ? 'للإيجار' : 'للبيع'))}</span>
         <div class="plaque-loc">${esc(p.loc)}</div>
         <div class="plaque-floor">${esc(p.floor)}</div>
         <div class="plaque-divider"></div>
