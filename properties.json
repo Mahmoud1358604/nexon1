@@ -500,5 +500,31 @@
     "media_type": "video",
     "image": "image-p23.jpg",
     "video": "video-p23.mp4"
+  },
+  {
+    "id": "p24",
+    "status": "sale",
+    "tag": "حمام ميخائيل",
+    "loc": "شقه مطله علي شارع ميخائيل",
+    "floor": "دور عاشر ناصيه",
+    "price_num": "1,150,000",
+    "price_note": "قابل لتفاوض",
+    "highlight": "برج كامل الخدمات + تقسيم وليم عبدالشهيد",
+    "updated": "2026-08-12",
+    "specs": [
+      [
+        "الموقع",
+        "حمام ميخائيل"
+      ],
+      [
+        "الدور",
+        "دور عاشر"
+      ]
+    ],
+    "feats": "",
+    "wa_text": "استفسار عن شقه مطله علي شارع ميخائيل",
+    "media_type": "video",
+    "image": "image-p24.jpg",
+    "video": "video-p24.mp4"
   }
 ]
