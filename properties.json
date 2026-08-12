@@ -416,5 +416,31 @@
     "media_type": "video",
     "image": "image-p20.jpg",
     "video": "video-p20.mp4"
+  },
+  {
+    "id": "p21",
+    "status": "sale",
+    "tag": "ش15",
+    "loc": "شقه لقطه لسرعه البيع",
+    "floor": "العاشر",
+    "price_num": "900,000",
+    "price_note": "",
+    "highlight": "اسانسير و كهربا ومياه و غاز و نت + تصالح",
+    "updated": "2026-08-12",
+    "specs": [
+      [
+        "الموقع",
+        "شارع 15 جانبي الكنيسه"
+      ],
+      [
+        "الدور",
+        "العاشر (ليس الاخير)"
+      ]
+    ],
+    "feats": "",
+    "wa_text": "استفسار عن شقه لقطه لسرعه البيع",
+    "media_type": "video",
+    "image": "image-p21.jpg",
+    "video": "video-p21.mp4"
   }
 ]
