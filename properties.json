@@ -474,5 +474,31 @@
     "media_type": "video",
     "image": "image-p22.jpg",
     "video": "video-p22.mp4"
+  },
+  {
+    "id": "p23",
+    "status": "sale",
+    "tag": "شارع القدس",
+    "loc": "شقه علي شارع القدس",
+    "floor": "دور سابع",
+    "price_num": "1,550,000",
+    "price_note": "",
+    "highlight": "منفذين علي الشارع، برج كامل الخدمات. تقسيم وليم عبدالشهيد",
+    "updated": "2026-08-12",
+    "specs": [
+      [
+        "الموقع",
+        "شارع القدس"
+      ],
+      [
+        "الدور",
+        "دور سابع"
+      ]
+    ],
+    "feats": "",
+    "wa_text": "استفسار عن شقه علي شارع القدس",
+    "media_type": "video",
+    "image": "image-p23.jpg",
+    "video": "video-p23.mp4"
   }
 ]
