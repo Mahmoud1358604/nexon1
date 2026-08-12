@@ -257,7 +257,8 @@
     "wa_text": "استفسار عن يجار مميز علي شارع 12",
     "media_type": "video",
     "image": "image-p15.jpg",
-    "video": "video-p15.mp4"
+    "video": "video-p15.mp4",
+    "sold": true
   },
   {
     "id": "p16",
