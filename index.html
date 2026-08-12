@@ -922,6 +922,67 @@
     display:block;
     margin-top:0.15rem;
   }
+  .trust-badge{
+    display:inline-flex;
+    align-items:center;
+    flex-shrink:0;
+    color:var(--brass);
+    opacity:0.5;
+    transition:opacity .3s ease;
+  }
+  .trust-badge svg{width:34px; height:17px; display:block;}
+  .plaque:hover .trust-badge{opacity:0.85;}
+
+  /* ===== TRUST TOAST ===== */
+  .trust-toast{
+    position:fixed;
+    bottom:1.4rem;
+    inset-inline-start:1.4rem;
+    z-index:70;
+    max-width:290px;
+    display:flex;
+    align-items:flex-start;
+    gap:0.65rem;
+    background:var(--ink-2);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:0.85rem 0.95rem;
+    box-shadow:0 14px 34px rgba(0,0,0,0.4);
+    opacity:0;
+    transform:translateY(18px);
+    pointer-events:none;
+    transition:opacity .55s cubic-bezier(.22,1,.36,1), transform .55s cubic-bezier(.22,1,.36,1);
+  }
+  .trust-toast.show{opacity:1; transform:translateY(0); pointer-events:auto;}
+  .trust-toast .tt-icon{
+    flex-shrink:0;
+    width:18px; height:18px;
+    margin-top:0.15rem;
+    color:var(--brass-light);
+  }
+  .trust-toast .tt-icon svg{width:100%; height:100%; fill:currentColor;}
+  .trust-toast .tt-text{
+    font-family:'IBM Plex Sans Arabic', sans-serif;
+    font-size:0.8rem;
+    line-height:1.6;
+    color:var(--paper);
+  }
+  .trust-toast .tt-close{
+    background:none;
+    border:none;
+    color:var(--stone);
+    font-size:1.05rem;
+    line-height:1;
+    cursor:pointer;
+    padding:0;
+    margin-inline-start:auto;
+    flex-shrink:0;
+    transition:color .25s ease;
+  }
+  .trust-toast .tt-close:hover{color:var(--brass-light);}
+  @media (max-width:640px){
+    .trust-toast{left:0.8rem; right:0.8rem; inset-inline-start:0.8rem; max-width:none; bottom:0.8rem;}
+  }
   .plaque-highlight{
     font-size:0.86rem;
     color:#4a4436;
@@ -1365,6 +1426,8 @@
   const CALL_SVG = '<svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.7 3.7 5 6.4 6.4l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.6c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.4 0 .8-.2 1z"/></svg>';
   const LINK_SVG = '<svg viewBox="0 0 24 24"><path d="M3.9 12c0-1.7 1.4-3.1 3.1-3.1h4V7H7C4.2 7 2 9.2 2 12s2.2 5 5 5h4v-1.9H7c-1.7 0-3.1-1.4-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.7 0 3.1 1.4 3.1 3.1s-1.4 3.1-3.1 3.1h-4V17h4c2.8 0 5-2.2 5-5s-2.2-5-5-5z"/></svg>';
   const CHECK_SVG = '<svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>';
+  const TRUST_SVG = '<svg viewBox="0 0 48 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="7" r="4" fill="currentColor"/><path d="M2 22c0-5 4-8 8-8s8 3 8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="38" cy="7" r="4" fill="currentColor"/><path d="M46 22c0-5-4-8-8-8s-8 3-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M17 16.5h4l1.5 1.8 1.5-1.8h4" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const TIP_SVG = '<svg viewBox="0 0 24 24"><path d="M12 2 4 6v6c0 5 3.4 8.7 8 10 4.6-1.3 8-5 8-10V6l-8-4zm-1.1 14.2L7 12.3l1.4-1.4 2.5 2.5 5.7-5.7L18 9.1z"/></svg>';
 
   function trackEvent(name, params){
     if (typeof gtag === "function") gtag('event', name, params || {});
@@ -1448,6 +1511,7 @@
         <div class="plaque-divider"></div>
         <div class="plaque-row">
           <div class="plaque-price">${esc(p.price_num)}<small>${esc(p.price_note)}</small></div>
+          <span class="trust-badge" title="تعامل موثوق">${TRUST_SVG}</span>
         </div>
         ${highlightHtml}
         <div class="plaque-actions">
@@ -1662,6 +1726,63 @@
       document.getElementById('grid').innerHTML = '<p style="grid-column:1/-1; text-align:center; color:var(--stone);">تعذر تحميل بيانات الوحدات. حاول تحديث الصفحة.</p>';
       console.error(err);
     });
+
+  /* ===== TRUST TOAST — رسائل ثقة قصيرة تظهر بهدوء بعد دخول الزائر ===== */
+  const TRUST_MESSAGES = [
+    "صديقي، خد وقتك في الاختيار… القرار الصح مبيتعملش على عجل.",
+    "يا عزيزي، كل وحدة عندنا اتعاينت بعنينا الأول قبل ما تتعرض عليك.",
+    "متقلقش، إحنا هنا نوضّحلك كل التفاصيل من غير أي حاجة مخفية.",
+    "الثقة عندنا مش كلام… هي معاينة وأوراق وصراحة من أول لحظة.",
+    "صديقي، لو حابب تحضر محاميك في المعاينة، إحنا مرحبين بيه.",
+    "خطوة واحدة صح النهاردة ممكن تفرق كتير بكرة.",
+    "يا غالي، بنسهلها عليك من أول استفسار لحد التسليم.",
+    "أي سؤال عندك مهم، ابعتلنا واتساب وهنرد عليك بسرعة.",
+    "الاختيار الصح مش لازم يكون الأسرع… خد وقتك واحنا معاك.",
+    "صديقي، الشفافية في السعر والتفاصيل هي أساس تعاملنا معاك.",
+    "متترددش تسأل… كل استفسار بيقربك من القرار الصح.",
+    "يا عزيزي، إحنا مش بس بنعرض وحدات… بنوصلك للي يريحك فعلاً.",
+    "صديقي، معاينة الوحدة مجانية وبدون أي التزام.",
+    "لسه بتدور ولا حاسمها؟ في الحالتين إحنا جنبك.",
+    "بيتك الجديد يستاهل إنك تاخد وقتك في اختياره صح."
+  ];
+
+  let ttEl = null, ttTimer = null, ttShowCount = 0;
+  const TT_MAX_SHOWS = 3;
+
+  function buildTrustToast(){
+    ttEl = document.createElement('div');
+    ttEl.className = 'trust-toast';
+    ttEl.setAttribute('role', 'status');
+    ttEl.setAttribute('aria-live', 'polite');
+    ttEl.innerHTML = `<span class="tt-icon">${TIP_SVG}</span><span class="tt-text" id="ttText"></span><button type="button" class="tt-close" aria-label="إغلاق">×</button>`;
+    ttEl.querySelector('.tt-close').addEventListener('click', dismissTrustToast);
+    document.body.appendChild(ttEl);
+  }
+
+  function showTrustMessage(){
+    if (!ttEl) buildTrustToast();
+    const msg = TRUST_MESSAGES[Math.floor(Math.random() * TRUST_MESSAGES.length)];
+    ttEl.querySelector('#ttText').textContent = msg;
+    ttEl.classList.add('show');
+    ttShowCount++;
+    clearTimeout(ttTimer);
+    ttTimer = setTimeout(hideTrustToast, 7500);
+  }
+
+  function hideTrustToast(){
+    if (ttEl) ttEl.classList.remove('show');
+    if (ttShowCount < TT_MAX_SHOWS) {
+      ttTimer = setTimeout(showTrustMessage, 32000 + Math.random() * 14000);
+    }
+  }
+
+  function dismissTrustToast(){
+    clearTimeout(ttTimer);
+    if (ttEl) ttEl.classList.remove('show');
+    ttShowCount = TT_MAX_SHOWS;
+  }
+
+  setTimeout(showTrustMessage, 5500);
 </script>
 
 </body>
