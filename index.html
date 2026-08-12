@@ -32,7 +32,7 @@
 <link rel="preload" as="image" href="hero-mobile.jpg" media="(max-width: 640px)">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Tajawal:wght@300;400;500;700;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=El+Messiri:wght@500;600;700&family=Tajawal:wght@300;400;500;700;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --ink:#15130f;
@@ -866,9 +866,10 @@
 
   .plaque-body{padding:1.5rem 1.5rem 1.7rem;}
   .plaque-loc{
-    font-family:'Aref Ruqaa', serif;
+    font-family:'El Messiri', serif;
     font-weight:700;
-    font-size:1.55rem;
+    font-size:1.4rem;
+    letter-spacing:0.01em;
     color:var(--ink);
     display:inline-block;
     position:relative;
@@ -1182,17 +1183,36 @@
 <section id="about">
   <div class="about-wrap reveal">
     <p class="eyebrow">من نحن</p>
-    <h2>NEX<span class="dot">•</span>ON للوساطة العقارية</h2>
-    <p>NEX•ON شركة وساطة عقارية بتربط العميل بأفضل الوحدات السكنية للبيع والإيجار، مع توثيق كامل بالفيديو والصور لكل وحدة قبل ما تشوفها بعينك.</p>
+    <h2>ليه NEX<span class="dot">•</span>ON؟</h2>
+    <p>البحث عن عقار مش لازم يكون رحلة تايهة بين جروبات السوشيال ميديا والوسطاء ومعلومات قديمة ومكررة. NEX•ON بتوصلك مباشرة لعقارات موثقة، من خلال شبكة مكاتب عقارية محلية موثوقة وفريق مركزي واحد بيرتب لك المعاينات ويبعتلك أشخاص معتمدين يساعدوك في اختيارك ويدققوا معاك في الأوراق.</p>
     <p class="tagline">Next Today · On Always — نبتكر اليوم، لنُبقيك في المستقبل.</p>
     <button type="button" class="policy-link" onclick="openAbout()">اعرف أكتر عننا</button>
+  </div>
+</section>
+
+<section id="units">
+
+  <div class="section-head">
+    <p class="eyebrow">الوحدات المتاحة</p>
+    <h2>كل شقة بتفاصيلها كاملة</h2>
+    <p>اضغط على الفيديو للمعاينة، وعلى "عرض التفاصيل" للمواصفات والسعر ووسائل التواصل.</p>
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn active" data-filter="all">الكل</button>
+    <button class="filter-btn" data-filter="sale">للبيع</button>
+    <button class="filter-btn" data-filter="rent">للإيجار</button>
+  </div>
+
+  <div class="grid" id="grid">
+    <p style="grid-column:1/-1; text-align:center; color:var(--stone); font-family:'IBM Plex Sans Arabic', sans-serif; font-size:0.9rem;">جارِ تحميل الوحدات...</p>
   </div>
 </section>
 
 <section id="coverage">
   <div class="section-head reveal">
     <p class="eyebrow">خطة التوسع</p>
-    <h2>بنكبر شارع بشارع</h2>
+    <h2>بنكبر خطوة بخطوة</h2>
     <p>بدأنا بتجميع المكاتب والوحدات في جسر السويس، وبنتوسع تدريجيًا لباقي مناطق السويس.</p>
   </div>
   <div class="roadmap reveal">
@@ -1215,25 +1235,6 @@
       <svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.1-.4-2.1-1.3-.8-.7-1.3-1.6-1.5-1.8-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.3-.4.1-.2 0-.4 0-.5C11 9.4 10.5 8 10.3 7.6c-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9 1-.9 2.3s1 2.6 1.1 2.8c.1.2 2 3 4.8 4.2.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.1-.3-.2-.6-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.2L2 22l4.9-1.4C8.4 21.5 10.2 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3.1.9.9-3-.2-.3C4.2 14.9 3.8 13.5 3.8 12c0-4.5 3.7-8.2 8.2-8.2s8.2 3.7 8.2 8.2-3.7 8.2-8.2 8.2z"/></svg>
       انضم كمكتب شريك
     </a>
-  </div>
-</section>
-
-<section id="units">
-
-  <div class="section-head">
-    <p class="eyebrow">الوحدات المتاحة</p>
-    <h2>كل شقة بتفاصيلها كاملة</h2>
-    <p>اضغط على الفيديو للمعاينة، وعلى "عرض التفاصيل" للمواصفات والسعر ووسائل التواصل.</p>
-  </div>
-
-  <div class="filters">
-    <button class="filter-btn active" data-filter="all">الكل</button>
-    <button class="filter-btn" data-filter="sale">للبيع</button>
-    <button class="filter-btn" data-filter="rent">للإيجار</button>
-  </div>
-
-  <div class="grid" id="grid">
-    <p style="grid-column:1/-1; text-align:center; color:var(--stone); font-family:'IBM Plex Sans Arabic', sans-serif; font-size:0.9rem;">جارِ تحميل الوحدات...</p>
   </div>
 </section>
 
@@ -1277,18 +1278,18 @@
     <h3>من نحن</h3>
 
     <div class="policy-item">
-      <b>قصتنا</b>
-      <p>NEX•ON بدأت كتجميع للمكاتب العقارية والوحدات في جسر السويس، بهدف إن أي حد بيفكر يشتري أو يأجر في منطقته يلاقينا. بنتوسع بخطوات مدروسة — منطقة كاملة بمكاتبها وعقاراتها في وقت واحد، قبل ما ننتقل للمنطقة اللي بعدها.</p>
+      <b>ليه إحنا موجودين؟</b>
+      <p>لما بتدوّر على عقار، بتلاقي نفسك مضطر تفتش في منصات التواصل الاجتماعي، وتقابل عدد كبير من الجروبات والمكاتب والوسطاء. المعلومات المتاحة أحيانًا بتكون قديمة أو مكررة، ومفيش مصدر واحد واضح تقدر تعتمد عليه من الأول للآخر.</p>
     </div>
 
     <div class="policy-item">
-      <b>المؤسس</b>
-      <p>الشركة أسسها المهندس محمود البهنساوي، ومسؤول عن متابعة الصفقات وضمان توثيق كل وحدة بالفيديو والصور قبل ما توصل للعميل.</p>
+      <b>إحنا بنعمل إيه؟</b>
+      <p>بنساعد الباحثين عن عقار في نطاق جسر السويس والنزهة 2 يوصلوا للعقار المناسب، من خلال شبكة من المكاتب العقارية المحلية الموثوقة. بنوفرلك خدمة بحث وحجز معاينات من خلال فريق مركزي واحد بيتابع معاك من أول استفسار لحد ما توصل لقرارك.</p>
     </div>
 
     <div class="policy-item" style="border-bottom:none; padding-bottom:0;">
-      <b>فريقنا</b>
-      <p>بنبني فريق خدمة عملاء ووسطاء ميدانيين مع كل توسع جديد — هتلاقي تفاصيلهم هنا أول ما يكتمل الفريق رسميًا.</p>
+      <b>فريق معتمد جنبك</b>
+      <p>بنبعتلك أشخاص معتمدين من الشركة يساعدوك في اختياراتك، ويراجعوا معاك الأوراق والمستندات قبل أي خطوة، عشان تطمن إنك ماشي صح من البداية للنهاية.</p>
     </div>
   </div>
 </div>
