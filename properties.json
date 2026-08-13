@@ -530,5 +530,31 @@
     "media_type": "video",
     "image": "image-p24.jpg",
     "video": "video-p24.mp4"
+  },
+  {
+    "id": "p25",
+    "status": "sale",
+    "tag": "شارع 20",
+    "loc": "شقه مميزه علي ال20",
+    "floor": "13 ( ليس الاخير )",
+    "price_num": "1,050,000",
+    "price_note": "",
+    "highlight": "3 غرف + 2 حمام + ريسبشن قطعتين + مطبخ",
+    "updated": "2026-08-13",
+    "specs": [
+      [
+        "الموقع",
+        "جانبي من شارع ال20"
+      ],
+      [
+        "الدور",
+        "13"
+      ]
+    ],
+    "feats": "متوفر كهربا اسانسير و نت",
+    "wa_text": "استفسار عن شقه مميزه علي ال20",
+    "media_type": "video",
+    "image": "image-p25.jpg",
+    "video": "video-p25.mp4"
   }
 ]
