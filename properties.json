@@ -172,33 +172,6 @@
     "video": "video-p14.mp4"
   },
   {
-    "id": "p15",
-    "status": "rent",
-    "tag": "شارع 15' دور 12",
-    "loc": "ايجار مميز علي شارع 12",
-    "floor": "12",
-    "price_num": "6000",
-    "price_note": "شهريا بالخدمات",
-    "highlight": "",
-    "updated": "2026-08-11",
-    "specs": [
-      [
-        "الموقع",
-        "تاني نمره من شارع 15"
-      ],
-      [
-        "الدور",
-        "12"
-      ]
-    ],
-    "feats": "",
-    "wa_text": "استفسار عن يجار مميز علي شارع 12",
-    "media_type": "video",
-    "image": "image-p15.jpg",
-    "video": "video-p15.mp4",
-    "sold": true
-  },
-  {
     "id": "p16",
     "status": "sale",
     "tag": "شارع 12 دور 3 110م",
