@@ -696,5 +696,31 @@
     "media_type": "video",
     "image": "image-p29.jpg",
     "video": "video-p29.mp4"
+  },
+  {
+    "id": "p30",
+    "status": "rent",
+    "tag": "4 نمره من ش 27",
+    "loc": "شقه للايجار🏠🔑",
+    "floor": "دور 10 اسانسير برج 15⚠️✔️",
+    "price_num": "6,000",
+    "price_note": "نهائي",
+    "highlight": "بدون غاز",
+    "updated": "2026-08-14",
+    "specs": [
+      [
+        "الموقع",
+        "4نمره من ش27محطه بيرتي النزهه2✔️🛺"
+      ],
+      [
+        "الدور",
+        "10"
+      ]
+    ],
+    "feats": "(مطلوب عرسان أو اسره صغيره)",
+    "wa_text": "استفسار عن شقه للايجار🏠🔑",
+    "media_type": "video",
+    "image": "image-p30.jpg",
+    "video": "video-p30.mp4"
   }
 ]
