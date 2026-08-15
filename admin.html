@@ -733,21 +733,15 @@
 
   $("#cancelEditBtn").addEventListener("click", exitEditMode);
 
-  function makeUniqueId(prefix, list){
-    // مبني على الوقت + رقم عشوائي عشان الـ id يفضل فريد ومايترجعش تاني حتى لو
-    // اتمسحت وحدة قديمة كانت بتاخد أعلى رقم (ده كان بيسبب تصادم روابط قديمة مع وحدات جديدة).
-    let id;
-    const existing = new Set(list.map(p => p.id));
-    do {
-      id = prefix + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-    } while (existing.has(id));
-    return id;
-  }
-
   async function nextPropertyId(){
     const { content } = await ghGetFile("properties.json");
     const list = JSON.parse(content);
-    return { id: makeUniqueId("p", list), list };
+    let max = 0;
+    list.forEach(p => {
+      const m = /^p(\d+)$/.exec(p.id);
+      if (m) max = Math.max(max, parseInt(m[1], 10));
+    });
+    return { id: "p" + (max + 1), list };
   }
 
   $("#propForm").addEventListener("submit", async (e) => {
@@ -947,7 +941,12 @@
   async function nextPartnerId(){
     const { content } = await ghGetFileOptional("partners.json");
     const list = JSON.parse(content || "[]");
-    return { id: makeUniqueId("b", list), list };
+    let max = 0;
+    list.forEach(p => {
+      const m = /^b(\d+)$/.exec(p.id);
+      if (m) max = Math.max(max, parseInt(m[1], 10));
+    });
+    return { id: "b" + (max + 1), list };
   }
 
   function setPartnerStatus(msg, kind){
