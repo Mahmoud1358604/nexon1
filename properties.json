@@ -650,7 +650,8 @@
     "wa_text": "استفسار عن شقه للايجار(اول سكن)🏠🔑",
     "media_type": "video",
     "image": "image-p32.jpg",
-    "video": "video-p32.mp4"
+    "video": "video-p32.mp4",
+    "sold": true
   },
   {
     "id": "p33",
