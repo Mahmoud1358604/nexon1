@@ -72,7 +72,8 @@
     "images": [
       "image-09.jpg",
       "image-10.jpg"
-    ]
+    ],
+    "sold": true
   },
   {
     "id": "p11",
