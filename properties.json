@@ -432,7 +432,8 @@
     "wa_text": "استفسار عن شقه مميزه علي ال20",
     "media_type": "video",
     "image": "image-p25.jpg",
-    "video": "video-p25.mp4"
+    "video": "video-p25.mp4",
+    "sold": true
   },
   {
     "id": "p26",
