@@ -354,7 +354,8 @@
     "wa_text": "استفسار عن شقه مميزه",
     "media_type": "video",
     "image": "image-p22.jpg",
-    "video": "video-p22.mp4"
+    "video": "video-p22.mp4",
+    "sold": true
   },
   {
     "id": "p23",
