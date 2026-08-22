@@ -620,7 +620,8 @@
     "wa_text": "استفسار عن شقه للايجار(عقد5سنوات)🏠🔑",
     "media_type": "video",
     "image": "image-p31.jpg",
-    "video": "video-p31.mp4"
+    "video": "video-p31.mp4",
+    "sold": true
   },
   {
     "id": "p32",
