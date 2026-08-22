@@ -380,7 +380,8 @@
     "wa_text": "استفسار عن شقه علي شارع القدس",
     "media_type": "video",
     "image": "image-p23.jpg",
-    "video": "video-p23.mp4"
+    "video": "video-p23.mp4",
+    "sold": true
   },
   {
     "id": "p24",
