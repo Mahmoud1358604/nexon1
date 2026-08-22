@@ -534,7 +534,8 @@
     "wa_text": "استفسار عن شقة في شارع الحجاز بجوار كنيسة الـ15",
     "media_type": "video",
     "image": "image-p28.jpg",
-    "video": "video-p28.mp4"
+    "video": "video-p28.mp4",
+    "sold": true
   },
   {
     "id": "p29",
