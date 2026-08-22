@@ -171,7 +171,8 @@
     "wa_text": "استفسار عن شقة 140 متر دور 11",
     "media_type": "video",
     "image": "image-p14.jpg",
-    "video": "video-p14.mp4"
+    "video": "video-p14.mp4",
+    "sold": true
   },
   {
     "id": "p16",
