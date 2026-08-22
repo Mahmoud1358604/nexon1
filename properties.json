@@ -238,7 +238,8 @@
     "wa_text": "استفسار عن شارع متولي الشعراوي",
     "media_type": "video",
     "image": "image-p17.jpg",
-    "video": "video-p17.mp4"
+    "video": "video-p17.mp4",
+    "sold": true
   },
   {
     "id": "p18",
