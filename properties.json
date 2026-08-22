@@ -462,7 +462,8 @@
     "wa_text": "استفسار عن شقة مميزة بواجهتين بحري بالكامل – النزهة 2",
     "media_type": "video",
     "image": "image-p26.jpg",
-    "video": "video-p26.mp4"
+    "video": "video-p26.mp4",
+    "sold": true
   },
   {
     "id": "p27",
