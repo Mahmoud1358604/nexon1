@@ -35,7 +35,8 @@
     "wa_text": "استفسار عن الشقتين 140 متر دور ثالث",
     "media_type": "video",
     "image": "image-p7.jpg",
-    "video": "video-p7.mp4"
+    "video": "video-p7.mp4",
+    "sold": true
   },
   {
     "id": "p9",
