@@ -298,7 +298,8 @@
     "wa_text": "استفسار عن شقه لقطه لسرعه البيع",
     "media_type": "video",
     "image": "image-p20.jpg",
-    "video": "video-p20.mp4"
+    "video": "video-p20.mp4",
+    "sold": true
   },
   {
     "id": "p21",
