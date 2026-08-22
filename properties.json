@@ -204,7 +204,8 @@
     "wa_text": "اسناسير حارس عقار واجهه العماره خالصه وكامل الخدمات",
     "media_type": "video",
     "image": "image-p16.jpg",
-    "video": "video-p16.mp4"
+    "video": "video-p16.mp4",
+    "sold": true
   },
   {
     "id": "p17",
