@@ -268,7 +268,8 @@
     "wa_text": "استفسار عن شقهه مميزه علي شارع 15",
     "media_type": "video",
     "image": "image-p18.jpg",
-    "video": "video-p18.mp4"
+    "video": "video-p18.mp4",
+    "sold": true
   },
   {
     "id": "p20",
