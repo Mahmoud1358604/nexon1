@@ -106,7 +106,8 @@
     "wa_text": "استفسار عن شقة ألترا سوبر لوكس دور 9",
     "media_type": "video",
     "image": "image-p11.jpg",
-    "video": "video-p11.mp4"
+    "video": "video-p11.mp4",
+    "sold": true
   },
   {
     "id": "p12",
