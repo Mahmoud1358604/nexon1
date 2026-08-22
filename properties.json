@@ -707,6 +707,7 @@
     "wa_text": "استفسار عن شقه للبيع الترا سربر لوكس",
     "media_type": "video",
     "image": "image-p34.jpg",
-    "video": "video-p34.mp4"
+    "video": "video-p34.mp4",
+    "sold": true
   }
 ]
