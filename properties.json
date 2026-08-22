@@ -140,7 +140,8 @@
     "wa_text": "استفسار عن شقة شارع 12 دور ثالث",
     "media_type": "video",
     "image": "image-p12.jpg",
-    "video": "video-p12.mp4"
+    "video": "video-p12.mp4",
+    "sold": true
   },
   {
     "id": "p14",
