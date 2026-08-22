@@ -564,7 +564,8 @@
     "wa_text": "استفسار عن شقه علي شارع 15",
     "media_type": "video",
     "image": "image-p29.jpg",
-    "video": "video-p29.mp4"
+    "video": "video-p29.mp4",
+    "sold": true
   },
   {
     "id": "p30",
