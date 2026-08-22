@@ -406,7 +406,8 @@
     "wa_text": "استفسار عن شقه مطله علي شارع ميخائيل",
     "media_type": "video",
     "image": "image-p24.jpg",
-    "video": "video-p24.mp4"
+    "video": "video-p24.mp4",
+    "sold": true
   },
   {
     "id": "p25",
