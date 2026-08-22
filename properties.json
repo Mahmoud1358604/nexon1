@@ -590,7 +590,8 @@
     "wa_text": "استفسار عن شقه للايجار🏠🔑",
     "media_type": "video",
     "image": "image-p30.jpg",
-    "video": "video-p30.mp4"
+    "video": "video-p30.mp4",
+    "sold": true
   },
   {
     "id": "p31",
